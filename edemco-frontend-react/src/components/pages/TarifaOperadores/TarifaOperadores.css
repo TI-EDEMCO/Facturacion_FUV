@@ -1,0 +1,16 @@
+.form-operadores {
+  display: grid;
+  gap: 2rem;
+  width: 100%;
+}
+
+.operadores {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+}
+
+.operadores__loading {
+  font-size: 1.2rem;
+  text-align: center;
+}

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: mscv-eureka
+
+server:
+  port: 8761
+  ssl:
+    enabled: true
+    key-store: file:/${KEY_RELATIVE_PATH}
+    key-store-password: ${KEY_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: ${KEY_ALIAS}
+
+eureka:
+  instance:
+    hostname: ${IP_SERVER}
+  client:
+    register-with-eureka: false
+    fetch-registry: false

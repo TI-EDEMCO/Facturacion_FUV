@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "title": "Facturación",
+    "icon": "fa-solid fa-file-invoice-dollar",
+    "href": "facturacion",
+    "linkText": "Facturación"
+  },
+  {
+    "id": 2,
+    "title": "Enviar emails",
+    "icon": "fa-solid fa-envelope",
+    "href": "enviar-emails",
+    "linkText": "Enviar emails"
+  },
+  {
+    "id": 3,
+    "title": "Plantas",
+    "icon": "fa-solid fa-industry",
+    "href": "plantas",
+    "linkText": "Plantas"
+  },
+  {
+    "id": 4,
+    "title": "Históricos",
+    "icon": "fa-solid fa-magnifying-glass",
+    "href": "historicos",
+    "linkText": "Históricos"
+  },
+  {
+    "id": 5,
+    "title": "Visualización de archivos",
+    "icon": "fa-regular fa-eye",
+    "href": "visualizacion-archivos",
+    "linkText": "Visualización"
+  }
+]

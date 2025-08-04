@@ -1,0 +1,64 @@
+.select-position {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #a6a6a6;
+  color: #a6a6a6;
+  cursor: pointer;
+  font-size: 16px;
+  min-width: 250px;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+/* ? Magia para el label!!! */
+.select:focus ~ label,
+.select:not(:placeholder-shown) ~ label {
+  background-color: #ffffff;
+  font-size: 13px;
+  left: 16px;
+  padding: 0 2px;
+  top: 0;
+  user-select: none;
+}
+.select__label {
+  border-radius: 6px;
+  color: rgba(0, 0, 0, 0.7);
+  left: 16px;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 150ms;
+}
+/* ? Magia para el label!!! */
+
+.select--error {
+  background-color: #fff8f8;
+  border-color: #ff0000;
+}
+
+.error {
+  color: #ff0000;
+  font-size: 12px;
+  position: absolute;
+}
+
+.select--width {
+  max-width: 540px;
+  width: 100%;
+}
+
+.select--height {
+  min-height: 45px;
+}
+
+.select--hide {
+  display: none;
+  pointer-events: none;
+}

@@ -1,0 +1,11 @@
+.facturacion-especial__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-block: 1.5rem;
+  width: 100%;
+
+  & button {
+    width: 100%;
+  }
+}

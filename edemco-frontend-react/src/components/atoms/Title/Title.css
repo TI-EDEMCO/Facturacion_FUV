@@ -1,0 +1,31 @@
+.title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  text-align: center;
+  color: #787474;
+}
+
+.title--margin {
+  margin-block: 1rem;
+}
+.title--big {
+  font-size: 2rem;
+}
+.title--medium {
+  font-size: 1.4rem;
+}
+.title--small {
+  font-size: 1.2rem;
+}
+.title--align-left {
+  text-align: start;
+}
+.title--capitalize {
+  text-transform: capitalize;
+}
+
+@media screen and (max-width: 425px) {
+  .title {
+    font-size: 1.3rem;
+  }
+}

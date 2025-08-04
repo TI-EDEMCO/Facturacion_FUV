@@ -1,0 +1,137 @@
+.input-position {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #a6a6a6;
+  color: #666;
+  font-size: 16px;
+  min-width: 250px;
+  padding: 10px;
+  text-align: start;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s;
+  width: 100%;
+}
+
+/* ? Magia para el label!!! */
+.input:focus ~ label,
+.input:not(:placeholder-shown) ~ label {
+  background-color: #ffffff;
+  font-size: 13px;
+  left: 16px;
+  padding: 0 2px;
+  top: 0;
+  user-select: none;
+}
+.input__label {
+  border-radius: 6px;
+  color: rgba(0, 0, 0, 0.4);
+  left: 16px;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 150ms;
+}
+/* ? Magia para el label!!! */
+
+.input[type='date'],
+.input[type='month'] {
+  text-align: center;
+}
+
+.input:not(:read-only):hover {
+  background-color: #f6f6f6;
+  border-color: #808080;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
+.input:hover ~ label {
+  background-color: #f6f6f6;
+}
+
+.input:not(:read-only):focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px #7cb05e82;
+  outline: none;
+}
+
+.input:focus::placeholder {
+  color: transparent;
+}
+
+.input:read-only {
+  background-color: #f6f6f6;
+  border-color: gray;
+  cursor: default;
+  outline: none;
+}
+
+.input:read-only ~ label {
+  background-color: #f6f6f6;
+}
+
+.input:read-only:focus {
+  outline: 1px solid gray;
+}
+
+.input[type='number']::-webkit-inner-spin-button,
+.input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.input--no-min-width {
+  min-width: 0;
+}
+
+div.input--grow {
+  flex-grow: 1;
+}
+
+.input--grow input {
+  width: 100%;
+}
+
+.input--flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.input--error {
+  background-color: #fff8f8;
+  border-color: #ff0000;
+}
+
+.error {
+  color: #ff0000;
+  font-size: 12px;
+  position: absolute;
+}
+
+.input[type='month']::-webkit-calendar-picker-indicator,
+.input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  scale: 1.2;
+  transition: scale 300ms;
+}
+
+.input[type='month']::-webkit-calendar-picker-indicator:hover,
+.input[type='date']::-webkit-calendar-picker-indicator:hover {
+  scale: 1.4;
+}

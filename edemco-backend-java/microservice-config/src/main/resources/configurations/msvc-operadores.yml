@@ -1,0 +1,30 @@
+server:
+  port: 9091
+  ssl:
+    enabled: true
+    key-store: file:/${KEY_RELATIVE_PATH}
+    key-store-password: ${KEY_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: ${KEY_ALIAS}
+
+spring:
+  application:
+    name: msvc-operadores
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: ${SQL_URL}
+    username: ${SQL_USER_NAME}
+    password: ${SQL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: sqlserver
+    database-platform: org.hibernate.dialect.SQLServerDialect
+
+
+eureka:
+  instance:
+    hostname: ${IP_SERVER}
+  client:
+    service-url:
+      defaultZone: https://${IP_SERVER}:8761/eureka/

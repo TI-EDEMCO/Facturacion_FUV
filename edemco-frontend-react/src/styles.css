@@ -1,0 +1,28 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* * CSS Variables */
+  --primary-color: #4DAF00;
+  --primary-color-hover: #3d8702;
+  --secondary-color: #b4e3ad;
+  --secondary-color-95: #b4e3ad95;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+a {
+  text-decoration: inherit;
+}

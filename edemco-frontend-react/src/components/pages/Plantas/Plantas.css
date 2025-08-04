@@ -1,0 +1,30 @@
+.plantas__form {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.planta__form {
+  border-radius: 8px;
+  border: 2px solid var(--secondary-color-95);
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.planta__inputs {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.plantas__loading {
+  align-items: center;
+  display: flex;
+}
+
+@media screen and (max-width: 880px) {
+  .planta__inputs {
+    flex-wrap: wrap;
+  }
+}

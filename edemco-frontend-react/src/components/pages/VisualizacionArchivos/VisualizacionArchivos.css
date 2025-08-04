@@ -1,0 +1,7 @@
+.reportContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 200px 0;
+}

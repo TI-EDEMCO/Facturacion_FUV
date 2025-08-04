@@ -1,0 +1,35 @@
+.titulo {
+  align-items: center;
+  background-color: #f8f9fa;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.8rem;
+}
+
+.titulo__link {
+  display: flex;
+  transition: scale 300ms;
+}
+
+.titulo__link:hover {
+  scale: 1.05;
+}
+
+.titulo img {
+  height: auto;
+  width: 290px;
+}
+
+@media (max-width: 768px) {
+  .titulo,
+  .titulo__link {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 425px) {
+  .titulo img {
+    width: 250px;
+  }
+}

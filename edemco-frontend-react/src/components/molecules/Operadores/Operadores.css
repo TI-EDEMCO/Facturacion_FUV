@@ -1,0 +1,20 @@
+.operador {
+  display: grid;
+  gap: 1.5rem;
+  justify-items: center;
+  width: 100%;
+}
+
+.operador__image {
+  object-fit: contain;
+}
+
+.tarifa {
+  color: #787474;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.actual-rate {
+  color: var(--primary-color);
+}

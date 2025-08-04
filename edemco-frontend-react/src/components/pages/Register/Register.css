@@ -1,0 +1,17 @@
+.input-group {
+  position: relative;
+}
+
+.hide-show-password {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 4px;
+  transition: color 200ms ease;
+  z-index: 10;
+}
+
+.hide-show-password:hover {
+  color: var(--primary-color-hover);
+}

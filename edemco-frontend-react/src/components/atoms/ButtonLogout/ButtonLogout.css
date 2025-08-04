@@ -1,0 +1,26 @@
+.btn-session {
+  position: relative;
+}
+
+.btn-session {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 2rem; /* Tamaño del icono */
+  padding: 1rem; /* Ajusta el tamaño del botón */
+  transition: scale 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.btn-session:hover {
+  scale: 1.2;
+}
+
+@media (max-width: 768px) {
+  .btn-session {
+    bottom: 20px;
+    position: fixed; /* Fijo en la pantalla */
+    right: 10px;
+  }
+}

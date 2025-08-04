@@ -1,0 +1,102 @@
+.login {
+  position: relative;
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+  background-color: #00000063;
+}
+
+.login::before {
+  background-image: url('/banner-energia-renovable-vf.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: '';
+  height: 100%;
+  left: 0;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.login--card {
+  background-color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 4px #00000040;
+  padding: 2rem;
+}
+
+.container--max-width {
+  margin: 1rem;
+  max-width: 450px;
+  padding-inline: 3rem;
+}
+
+.titulo-login {
+  background-color: transparent;
+  text-align: center;
+}
+
+.titulo-login img {
+  height: auto;
+  width: 290px;
+}
+
+.sesion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-inline: auto;
+}
+
+.login-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  align-items: center;
+  display: flex;
+  gap: 0.8rem;
+}
+
+.login--big-button {
+  min-height: 41px;
+  display: flex;
+  align-items: center;
+}
+
+.call-to-actions {
+  align-items: center;
+  display: flex;
+  font-size: 0.9rem;
+  gap: 4px;
+
+  & p {
+    color: #000000aa;
+  }
+
+  & a {
+    font-size: inherit;
+    min-width: 0;
+    padding: 10px 0;
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 425px) {
+  .titulo-login img {
+    width: 250px;
+  }
+
+  .login--card {
+    margin: 0.5rem;
+    padding: 0.5rem;
+  }
+}

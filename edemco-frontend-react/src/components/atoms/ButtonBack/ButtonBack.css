@@ -1,0 +1,24 @@
+.btn-back {
+  background: none;
+  border: none;
+  bottom: 40px;
+  color: var(--primary-color); /* Color del texto */
+  cursor: pointer;
+  font-size: 2rem; /* Tamaño del icono */
+  left: 20px; /* Ajusta según necesites */
+  padding: 1rem; /* Ajusta el tamaño del botón */
+  position: fixed;
+  transition: scale 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.btn-back:hover {
+  scale: 1.2;
+}
+
+@media (max-width: 768px) {
+  .btn-back {
+    bottom: 20px;
+    left: 10px;
+  }
+}

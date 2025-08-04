@@ -1,0 +1,39 @@
+.editar-disenos {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.editar-diseno__tooltip {
+  align-items: center;
+  color: #787474;
+  display: flex;
+  font-size: 15px;
+  gap: 0.5rem;
+}
+
+.enviar-email__loading {
+  align-items: center;
+  display: flex;
+  margin: 1.5rem auto;
+  width: fit-content;
+}
+
+.editar-diseno__no-invoices {
+  color: #787474;
+  font-weight: 500;
+  margin-block: 2rem;
+  text-align: center;
+}
+
+.form-edit-row {
+  width: 100%;
+}
+
+.form__inputs {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(255px, 100%), 1fr));
+  justify-items: center;
+  margin-bottom: 1rem;
+}
