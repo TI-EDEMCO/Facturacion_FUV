@@ -53,6 +53,7 @@ class Generacion(Base):
     valor_total = Column(Double)
     ahorro_acumulado = Column(Double)
     mes = Column(Integer)
+    anio = Column(Integer)
     ahorro_actual = Column(Double)
     ahorro_codos_actual = Column(Double)
     ahorro_codos_acumulado = Column(Double)
@@ -106,6 +107,7 @@ def get_facturas():
             func.month(Factura.fecha_final) == mes_anterior_numero,
             func.year(Factura.fecha_final) == año_mes_anterior,
             Generacion.mes == mes_anterior_numero,
+            Generacion.anio== año_mes_anterior,
             Factura.cufe.isnot(None)
         ).group_by(
             Planta.id_planta,

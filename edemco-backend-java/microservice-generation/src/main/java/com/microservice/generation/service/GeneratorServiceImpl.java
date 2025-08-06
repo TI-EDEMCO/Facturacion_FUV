@@ -91,8 +91,12 @@ public class GeneratorServiceImpl implements IGeneratorService {
 
                 Double valorTotal = 0.0;
                 try {
+                    System.out.println(nombrePlanta);
                     if (Objects.equals(checkFacturacionEspecial(idPlanta), idPlanta) && checkFacturacionEspecial(idPlanta) != null) {
                         Float cantidadKwh = findCantidadKWhByIdPlantaAndDate(idPlanta, anio, mesActual);
+                        if (cantidadKwh==null){
+                            continue;
+                        }
                         System.out.println(generacionActual - cantidadKwh);
                         valorTotal = (generacionActual - cantidadKwh) * valorUnidad;
                     } else {

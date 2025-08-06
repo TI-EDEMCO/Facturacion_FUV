@@ -20,7 +20,7 @@ class Microservice_1(AbstractAPI):
     # Definimos el método automation
     def automation(self):
         # Creamos una nueva instancia del navegador Chrome
-        driver = webdriver.Chrome()
+        driver = webdriver.Edge()
         # Configuramos el navegador para esperar hasta 20 segundos antes de lanzar una excepción
         driver.implicitly_wait(20)
         # Creamos una nueva instancia de WebAutomation pasando el navegador como argumento

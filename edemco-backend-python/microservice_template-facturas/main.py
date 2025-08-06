@@ -248,28 +248,28 @@ def apiPrueba():
             fechaCUFE = item.get("fecha_cufe")
 
             # # Llamar al método del microservicio
-            # microservice.seleccion_template(
-            #     cod_planta,
-            #     fechaIni,
-            #     fechaFin,
-            #     diasConsumo,
-            #     consumoActual,
-            #     consumoAcumulado,
-            #     conceptoFacturado,
-            #     Cantidad,
-            #     costoUnidad,
-            #     valorTotal,
-            #     fechaPago,
-            #     facturaMes,
-            #     facturaNo,
-            #     contratoNo,
-            #     ahorroActual,
-            #     ahorroAcumulado,
-            #     periodoActual,
-            #     periodoAcumulado,
-            #     CUFE,
-            #     fechaCUFE,
-            # )
+            microservice.seleccion_template(
+                cod_planta,
+                fechaIni,
+                fechaFin,
+                diasConsumo,
+                consumoActual,
+                consumoAcumulado,
+                conceptoFacturado,
+                Cantidad,
+                costoUnidad,
+                valorTotal,
+                fechaPago,
+                facturaMes,
+                facturaNo,
+                contratoNo,
+                ahorroActual,
+                ahorroAcumulado,
+                periodoActual,
+                periodoAcumulado,
+                CUFE,
+                fechaCUFE,
+            )
 
             microservice_email.prueba(cod_planta,headers)
         
