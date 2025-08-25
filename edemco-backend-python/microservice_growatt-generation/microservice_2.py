@@ -35,7 +35,12 @@ class Microservice_2(AbstractAPI):
             .reset_index()
         )
         Generacion["fechaFactura"] = formatDate
-
+        #Modificamos la informacion para sumar el valor de liceo etapa 2 a liceo normal
+        index_of_Liceo=Generacion.index[Generacion["plantName"]=='LICEO FRANCES'].to_list()
+        index_of_Liceo2=Generacion.index[Generacion["plantName"]=='LICEO FRANCES ETAPA 2'].to_list()
+        valor=Generacion['Monthly Cumulative Power generation']
+        liceoValor,liceo2Valor=valor.get(index_of_Liceo[0]),valor.get(index_of_Liceo2[0])
+        Generacion.loc[index_of_Liceo[0]]={'plantName':'LICEO FRANCES','Monthly Cumulative Power generation':liceo2Valor+liceoValor,'fechaFactura':formatDate}
         # Convertir a JSON
         json_data = Generacion.to_json(orient="records")
         return json_data
