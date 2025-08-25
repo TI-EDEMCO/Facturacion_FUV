@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Cliente Feign para interactuar con el microservicio de operadores.
  */
-@FeignClient(name = "msvc-operadores", url = "localhost:9091")
+@FeignClient(name = "msvc-operadores", url = "https://localhost:9091")
 public interface OperadorClient {
 
     /**

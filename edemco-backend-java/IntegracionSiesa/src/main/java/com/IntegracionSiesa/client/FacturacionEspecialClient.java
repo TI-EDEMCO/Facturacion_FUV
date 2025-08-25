@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Cliente Feign para interactuar con el microservicio de facturación especial.
  */
-@FeignClient(name = "msvc-facturacion-especial", url = "localhost:9081")
+@FeignClient(name = "msvc-facturacion-especial", url = "https://localhost:9081")
 public interface FacturacionEspecialClient {
 
     /**
