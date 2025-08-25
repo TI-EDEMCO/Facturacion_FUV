@@ -108,7 +108,7 @@ const IniciarFactura = () => {
   const sendDataToGrowatt = async () => {
     GetGrowattDataDowload()
     setTimeout(async () => {
-      const response = await GetGrowattData()
+      const result = await GetGrowattData()
       if (result.success) {
         await generateCalculations(JSON.parse(result.data))
         await siesaIntegration()

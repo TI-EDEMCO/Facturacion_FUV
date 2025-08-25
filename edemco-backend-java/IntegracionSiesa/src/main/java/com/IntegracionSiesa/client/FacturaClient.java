@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * Cliente Feign para interactuar con el microservicio de facturación.
  */
-@FeignClient(name = "msvc-factura", url = "localhost:8060")
+@FeignClient(name = "msvc-factura", url = "https://localhost:8060")
 public interface FacturaClient {
 
     /**
