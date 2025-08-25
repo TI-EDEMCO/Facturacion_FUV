@@ -20,9 +20,8 @@
 
 - [Frontend](#frontend)
 
-  - [Instalación](#instalación-front)
-
-- [Subir cambios a Github](#subir-cambios-a-github)
+- [Variables de entorno](#uso-de-variables-de-entorno)
+- [Virtual Envoronment](#virtual-environment)
 
 </details>
 
@@ -70,9 +69,10 @@ npm install
 ```
 
 2. Ejecuta el proyecto
-
 ```sh
+#desarrollo:
 npm run dev
+#produccion npm run serve
 ```
 
 ## Uso de variables de entorno 
@@ -133,7 +133,7 @@ La carpeta de compilados-edemco tiene un archivo .sh que ejecuta los servicios c
 ## Python
 el archivo main.py que se encuentra fuera de los ubicaciones de los microservicios es el encargado de ejecutar los microservicios, se debe modificar en para utilizar la ubicacion del entorno virtual a utilizar (se recomienda ubicarlo en la raiz):
 ```
-├───entornov
+├───venv
 ├───microservice_get-inoices
 ├───microservice_growatt-generation
 ├───microservice_historic-factories
@@ -141,5 +141,23 @@ el archivo main.py que se encuentra fuera de los ubicaciones de los microservici
 ├───microservice_upload-file
 ├───.env
 └───main.py
+
+```
+## Virtual Environment
+
+El entorno virtual se debe crear en la raiz de la carpeta `edemco-backend-python`, se debe tener instalado de manera global la dependencia virtualenv o intalarla con la sigueinte linea
+```
+pip install virtualenv
+```
+Se debe crear e instalar las dependencias encontradas en el `requirements.txt`
+```
+#crear el entorno
+py -m virtualenv venv
+
+#iniciar el entorno
+venv\scripts\activate
+
+#instalar dependencias
+pip install -r requirements.txt
 
 ```
