@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import { useState } from 'react'
 
 /*
 * GetGrowattData Service
@@ -19,7 +20,7 @@ import Cookies from 'js-cookie'
 *
 * Detalles adicionales:
 * - El `BASE_URL` se obtiene desde las variables de entorno a través de `import.meta.env.VITE_API_BASE_URL`.
-* - La solicitud se realiza al endpoint `/api/growatt` utilizando el método HTTP `GET`.
+* - La solicitud se realiza al endpoint `/api/growatt/json` utilizando el método HTTP `GET`.
 * - Incluye un token de autenticación en el encabezado `Authorization`.
 * - Maneja errores de red y respuestas no exitosas del servidor.
 *
@@ -36,25 +37,19 @@ import Cookies from 'js-cookie'
 const GetGrowattData = async () => {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL
   const token = Cookies.get('accessToken')
-
   try {
-    const response = await fetch(`${BASE_URL}8094/api/growatt`, {
+    console.log("inicio, esperando tiempo 40000ms")
+    const response = await fetch(`${BASE_URL}8094/api/growatt/json`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
     })
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-
     return { success: true, data: await response.json() }
   } catch (error) {
-    console.error('Error sending data to growatt:', error)
-
     return { success: false, error: error.message }
   }
+
 }
 
 export default GetGrowattData

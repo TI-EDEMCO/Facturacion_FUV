@@ -65,5 +65,5 @@ class WebAutomation:
         """
         Cierra el controlador del navegador después de una espera de 20 segundos.
         """
-        time.sleep(20)
+        time.sleep(10)
         self.driver.quit()

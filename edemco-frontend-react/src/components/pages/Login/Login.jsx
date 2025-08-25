@@ -168,8 +168,8 @@ const Login = () => {
           /> */}
         </form>
         <Button
-        onClick={()=>{window.location.href="https://192.168.56.1:8080/oauth2/authorization/azure"}}
-        text={"Inicio sesion prueba microsoft"}
+        onClick={()=>{window.location.href="https://10.10.100.98:8080/oauth2/authorization/azure"}}
+        text={"Inicio sesion"}
         />
         <div className="call-to-actions">
           <p>¿No tienes cuenta?</p>

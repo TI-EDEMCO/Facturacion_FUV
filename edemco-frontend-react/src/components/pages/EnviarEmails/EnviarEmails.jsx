@@ -57,6 +57,21 @@ const EnviarEmails = () => {
     fetchFacturas();
   }, []);
 
+  const handleInvoices=(value)=>{
+    function FindRow(row){
+      return row==value
+    }
+    const registro=invoices.find(FindRow)
+    if(registro){
+      setInvoices(invoices.filter((row)=> row!=value))
+    }
+    else{
+      setInvoices([...invoices,value])
+      
+    }
+
+  }
+
   const fetchFacturas = async () => {
     const result = await GetDataInvoices();
 
@@ -66,7 +81,7 @@ const EnviarEmails = () => {
         cantidad: `${row.cantidad} kWh`,
       }));
 
-      setInvoices(result.data);
+      // setInvoices(result.data);
       setRows(formattedData);
     } else {
       console.error("Failed to fetch invoices:", result.error);
@@ -76,6 +91,7 @@ const EnviarEmails = () => {
   };
 
   const columns = [
+    "Seleccionar",
     "Código Planta",
     "Nombre Planta",
     "Fecha Inicio",
@@ -100,6 +116,7 @@ const EnviarEmails = () => {
   ];
 
   const columnKeyMap = {
+    "Seleccionar":"",
     "Ahorro Actual": "ahorro_actual",
     "Ahorro Acumulado": "ahorro_acumulado",
     "Código Planta": "cod_planta",
@@ -178,6 +195,7 @@ const EnviarEmails = () => {
           columnKeyMap={columnKeyMap}
           columns={filteredColumns}
           onEditRow={editRow}
+          CheckBox={handleInvoices}
           rows={rows}
           rowsPerPage={20}
           showPagination={false}
@@ -199,7 +217,7 @@ const EnviarEmails = () => {
           </p>
           <Button
             className="boton--margin boton--margin-block boton--relative"
-            disabled={loading}
+            disabled={loading || invoices.length==0}
             isLoading={loading}
             onClick={generateTemplate}
             text={loading ? "Generando" : "Generar plantillas y enviar correos"}

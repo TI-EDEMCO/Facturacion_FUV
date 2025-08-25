@@ -56,7 +56,7 @@ const fetchWithToken = async (url, options = {}, isPython = false) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       },
-      credentials:'include'
+      credentials: 'include'
     })
 
     const data = await response.json()
@@ -70,41 +70,47 @@ const fetchWithToken = async (url, options = {}, isPython = false) => {
     }
 
     if (data.statusCode === UNAUTHORIZED_STATUS_CODE) {
-      const refreshResult = await PostNewAccessToken()
+      console.log("unautorizate")
+      Cookies.remove('accessToken')
+      Cookies.remove('refreshToken')
 
-      if (
-        refreshResult.success &&
-        refreshResult.data.statusCode !== FORBIDDEN_STATUS_CODE
-      ) {
-        const newAccessToken = refreshResult.data.accessToken
+      window.location.href = '/'
+      return { success: false, error: data.message }
+      // const refreshResult = await PostNewAccessToken()
 
-        if (newAccessToken) Cookies.set('accessToken', newAccessToken)
+      // if (
+      //   refreshResult.success &&
+      //   refreshResult.data.statusCode !== FORBIDDEN_STATUS_CODE
+      // ) {
+      //   const newAccessToken = refreshResult.data.accessToken
 
-        const retryResponse = await fetch(`${BASE_URL}${JAVA_PORT}${url}`, {
-          ...options,
-          headers: {
-            ...options.headers,
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${newAccessToken}`
-          }
-        })
+      //   if (newAccessToken) Cookies.set('accessToken', newAccessToken)
 
-        if (!retryResponse.ok) {
-          throw new Error('Network response was not ok')
-        }
+      //   const retryResponse = await fetch(`${BASE_URL}${JAVA_PORT}${url}`, {
+      //     ...options,
+      //     headers: {
+      //       ...options.headers,
+      //       'Content-Type': 'application/json',
+      //       Authorization: `Bearer ${newAccessToken}`
+      //     }
+      //   })
 
-        const data = await retryResponse.json()
+      //   if (!retryResponse.ok) {
+      //     throw new Error('Network response was not ok')
+      //   }
 
-        return { success: true, data }
-      } else if (refreshResult.data.statusCode === FORBIDDEN_STATUS_CODE) {
-        Cookies.remove('accessToken')
-        Cookies.remove('refreshToken')
+      //   const data = await retryResponse.json()
 
-        window.location.href = '/'
-        return { success: false, error: data.message }
-      } else {
-        throw new Error('Could not refresh token')
-      }
+      //   return { success: true, data }
+      // } else if (refreshResult.data.statusCode === FORBIDDEN_STATUS_CODE) {
+      //   Cookies.remove('accessToken')
+      //   Cookies.remove('refreshToken')
+
+      //   window.location.href = '/'
+      //   return { success: false, error: data.message }
+      // } else {
+      //   throw new Error('Could not refresh token')
+      // }
     }
 
     throw new Error('Network response was not ok')

@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.common.alert import Alert
 # Importamos las clases necesarias para trabajar con fechas y tiempos
 from datetime import datetime
 from dateutil.relativedelta import relativedelta

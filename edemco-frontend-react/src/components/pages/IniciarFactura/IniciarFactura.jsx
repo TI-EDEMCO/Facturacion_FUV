@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import Button from '../../atoms/Button/Button'
 import Container from '../../layouts/Container/Container'
 import GetCustomers from '../../../services/GetCustomers.service'
+import GetGrowattDataDowload from '../../../services/GetGrowattDownload.service'
 import GetGrowattData from '../../../services/GetGrowattData.service'
 import Input from '../../atoms/Input/Input'
 import PostExcelFile from '../../../services/PostExcelFile.service'
@@ -105,16 +106,20 @@ const IniciarFactura = () => {
   }
 
   const sendDataToGrowatt = async () => {
-    const result = await GetGrowattData()
+    GetGrowattDataDowload()
+    setTimeout(async () => {
+      const response = await GetGrowattData()
+      if (result.success) {
+        await generateCalculations(JSON.parse(result.data))
+        await siesaIntegration()
+      } else {
+        console.error('Failed to get data from growatt:', result.error)
+        setIsLoading(false)
+      }
+    }, 90000)
 
-    if (result.success) {
-      await generateCalculations(JSON.parse(result.data))
-      await siesaIntegration()
-    } else {
-      console.error('Failed to get data from growatt:', result.error)
 
-      setIsLoading(false)
-    }
+
   }
 
   const uploadFile = async (excelFile) => {

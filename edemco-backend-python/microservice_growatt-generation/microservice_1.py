@@ -1,7 +1,7 @@
 # Importar y cargar variables de entorno
 import os
 from dotenv import load_dotenv
-env_path="C:/edemco/edemco-backend-python/.env"
+env_path="C:/edemco--pruebas/edemco-backend-python/.env"
 load_dotenv()
 # Importamos la clase AbstractAPI del módulo process
 from process import AbstractAPI
@@ -19,8 +19,12 @@ from Automate.main_automate import WebAutomation
 class Microservice_1(AbstractAPI):
     # Definimos el método automation
     def automation(self):
+        # Se configura opcion de chrome para eviatr mensaje de contraseña insegura/aparecio en un leak de data
+        pref ={"profile.password_manager_leak_detection":False}
+        option =webdriver.ChromeOptions()
+        option.add_experimental_option("prefs",pref)
         # Creamos una nueva instancia del navegador Chrome
-        driver = webdriver.Edge()
+        driver = webdriver.Chrome(options=option)
         # Configuramos el navegador para esperar hasta 20 segundos antes de lanzar una excepción
         driver.implicitly_wait(20)
         # Creamos una nueva instancia de WebAutomation pasando el navegador como argumento

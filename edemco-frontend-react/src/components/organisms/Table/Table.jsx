@@ -33,6 +33,7 @@ const Table = ({
   columns,
   linkColumns = [],
   onEditRow,
+  CheckBox,
   rows,
   rowsPerPage = 10,
   showPagination = true
@@ -75,7 +76,6 @@ const Table = ({
                   <tr
                     id={onEditRow && 'edit-row'}
                     key={row.CUFE || rowIndex}
-                    onClick={() => onEditRow(row)}
                   >
                     {columns.map((column, colIndex) => {
                       const key =
@@ -87,11 +87,14 @@ const Table = ({
                         <td
                           key={colIndex}
                           title={onEditRow && `${column}: ${value}`}
+                          onClick={column=="Seleccionar"?null:() => onEditRow(row)}
                         >
                           {isLinkColumn(column) ? (
                             <a href={value} rel="noreferrer" target="_blank">
                               Link
                             </a>
+                          ):column=="Seleccionar"?(
+                            <input type="checkbox" onClick={()=>CheckBox(row)}></input>
                           ) : (
                             value
                           )}

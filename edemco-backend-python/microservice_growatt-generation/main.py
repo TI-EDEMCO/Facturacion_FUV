@@ -17,9 +17,17 @@ microservice_2 = Microservice_2()
 def home():
     # Ejecutamos el método execute de microservice_1
     microservice_1.execute()
+    # json_data = microservice_2.execute()
+    # # Devolvemos un mensaje al usuario
+    # return jsonify(json_data)
+
+@cross_origin
+@app.route('/api/growatt/json')
+def json():
     json_data = microservice_2.execute()
     # Devolvemos un mensaje al usuario
     return jsonify(json_data)
+
 
 # Comprobamos si este archivo es el punto de entrada principal para ejecutar la aplicación
 if __name__ == '__main__':

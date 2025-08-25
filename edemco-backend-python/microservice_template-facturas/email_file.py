@@ -11,7 +11,7 @@ import pyodbc
 import base64
 import mimetypes
 from dotenv import load_dotenv
-env_file="C:/edemco/edemco-backend-python/.env"
+env_file="C:/edemco--pruebas/edemco-backend-python/.env"
 load_dotenv(env_file)
 
 class EmailIntegracion:
@@ -122,6 +122,7 @@ class EmailIntegracion:
 
             # Lista de correos electrónicos
             email_list = [row.email for row in result]
+            print(email_list,list(email_list))
 
         except pyodbc.Error as e:
             print(f"Error para cod planta: {cod_planta}: {e}")
@@ -137,6 +138,7 @@ class EmailIntegracion:
         info_email = DTO_email()
         asunto, route = info_email.execute(cod_planta)
         url_img = r'C:\\Users\\usuario\Desktop\\Encabezado_correo.png'
+        print(asunto,"<--@@@")
 
         image=[]
         attachments=[]
@@ -163,27 +165,20 @@ class EmailIntegracion:
                 "contentType": mime_type[0],
                 "contentBytes": str(base64_encode).split("b'")[1].replace('\'','')
             })
-        
+        toRecipients=[{"emailAddress":{"address":email}} for email in email_list]
         message = {
             "message": {
-                "subject": "Correo desde microservicio Python",
+                "subject": asunto,
                 "body": {
                     "contentType": "HTML",
                     "content": '<img src="cid:image1" alt="Factura">'
                 },
-                "toRecipients": [
-                    {
-                        "emailAddress": {
-                            "address": "jose.romero@edemco.co"
-                        }
-                    }
-                ]
+                "toRecipients": toRecipients
                 ,
                 "attachments": [*attachments,*image
                 ]
             }
         }
-        
         response = requests.post(
             # usa /me para el usuario autenticado
             "https://graph.microsoft.com/v1.0/me/sendMail",
