@@ -11,7 +11,7 @@ import pyodbc
 import base64
 import mimetypes
 from dotenv import load_dotenv
-env_file="C:/edemco--pruebas/edemco-backend-python/.env"
+env_file="C:/edemco/edemco-backend-python/.env"
 load_dotenv(env_file)
 
 class EmailIntegracion:

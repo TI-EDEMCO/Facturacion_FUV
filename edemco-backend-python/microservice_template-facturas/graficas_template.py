@@ -76,7 +76,7 @@ class GraficaExcel():
                 ORDER BY 
                     g.anio DESC, g.mes DESC
             ) sub
-            INNER JOIN facturacion_especial e ON sub.mes = e.mes AND sub.anio = e.anio
+            LEFT JOIN facturacion_especial e ON sub.mes = e.mes AND sub.anio = e.anio
             ORDER BY sub.anio ASC, sub.mes ASC;
         '''
         
