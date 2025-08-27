@@ -325,5 +325,45 @@ def apiPrueba():
         return jsonify(response), 500
 
 
+
+@cross_origin
+@app.route("/api/notificar_contabilidad",methods=["POST"])
+def Email_contabilidad():
+    try:
+        auth_header = request.headers.get("Authorization")
+        if not auth_header:
+            response = {"status-code": 400,
+                        "error": "Authorization header is missing"}
+            return jsonify(response), 400
+        if auth_header.startswith("Bearer "):
+            token = auth_header.split(" ")[1]
+        else:
+            token = auth_header
+        SECRET = os.getenv("SECRET_KEY")
+        # Decodificar el token
+        decoded_secret = base64.urlsafe_b64decode(
+            SECRET + "=" * (-len(SECRET) % 4))
+        decoded = jwt.decode(
+            token,
+            decoded_secret,
+            algorithms=["HS256"],
+            options={"verify_signature": False},
+        )
+        authorization = decoded.get("authorizationToken")
+        headers = {
+            "Authorization": f'Bearer {authorization}'
+        }
+
+    # Obtener los datos del cuerpo de la solicitud en formato JSON
+        data = request.get_json()
+        if data is None:
+            response = {"status-code": 400, "error": "No JSON received"}
+            return jsonify(response), 400
+        microservice_email.email_contabilidad(data["Plantas"],headers)
+        return "response", 200
+    except Exception as e:
+        response = {"status-code": 500, "error": str(e)}
+        return jsonify(response), 500
+
 if __name__ == "__main__":
     app.run(debug=True, port=8091)

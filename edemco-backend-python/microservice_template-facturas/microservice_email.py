@@ -11,3 +11,7 @@ class microservice_email(EmailIntegracion):
     def prueba(cod_planta,headers):
         instance_mail=EmailIntegracion()
         instance_mail.email_prueba(cod_planta,headers)
+    @staticmethod
+    def email_contabilidad(Plantas, headers):
+        instance_mail=EmailIntegracion()
+        instance_mail.email_contabilidad(Plantas,headers)
