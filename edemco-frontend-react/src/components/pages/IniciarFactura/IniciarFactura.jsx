@@ -11,6 +11,8 @@ import PostGenerateCalculations from '../../../services/PostGenerateCalculations
 import PostSiesaIntegration from '../../../services/PostSiesaIntegration.service'
 import Select from '../../atoms/Select/Select'
 import './IniciarFactura.css'
+import GetAccessTokenGraph from '../../../services/GetAccessTokenGraph'
+import PostCorreoContabilidad from '../../../services/PostCorreoContabilidad.service'
 
 /*
 * IniciarFactura Component
@@ -82,6 +84,10 @@ const IniciarFactura = () => {
   const isFormValid = () => {
     return !formValues.plantaHasError && customers.length > 0
   }
+  const Gettoken=async()=>{
+    const token=await GetAccessTokenGraph()
+    return token.data
+  }
 
   const submitInvoice = (e) => {
     e.preventDefault()
@@ -117,9 +123,6 @@ const IniciarFactura = () => {
         setIsLoading(false)
       }
     }, 90000)
-
-
-
   }
 
   const uploadFile = async (excelFile) => {
@@ -147,14 +150,18 @@ const IniciarFactura = () => {
       toast.error('Error al generar la facturación, intenta nuevamente')
     }
   }
-
   const siesaIntegration = async () => {
     const todayDate = new Date().toISOString().split('T')[0]
 
     const result = await PostSiesaIntegration(customers, todayDate)
 
     if (result.success) {
+      var ListaPlantas=[]
+      const token= await Gettoken()
+      customers.map(({idPlanta,nombrePlanta})=>{ListaPlantas.push(`"${nombrePlanta}"`)})
+      PostCorreoContabilidad(ListaPlantas,token.authorization)
       toast.success('Facturas generadas con éxito!')
+
     } else {
       console.error('Failed to integrate on siesa:', result.error)
     }

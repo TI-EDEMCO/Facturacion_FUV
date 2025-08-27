@@ -123,6 +123,9 @@ SECRET_KEY="..."
 #GROWATT
 USER_NAME="${USER GROWATT}"
 PASSWORD="${PASSWORD GROWATT}"
+
+#CORREOS DE CONTABILIDAD, UNA LISTA 
+EMAILSCONTABILIDAD="correo1@mail.co,correo2@mail.co.correo3@...."
 ```
 3. variables de entorno en front end (seguir de ejemplo el .env.example)
 
