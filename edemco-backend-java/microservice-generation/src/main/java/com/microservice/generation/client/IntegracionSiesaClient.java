@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Cliente Feign para interactuar con el microservicio de integración Siesa.
  */
-@FeignClient(name = "msvc-integracion", url = "https://localhost:9090")
+@FeignClient(name = "msvc-integracion", url = "http://localhost:9090")
 public interface IntegracionSiesaClient {
 
     /**
