@@ -1,4 +1,5 @@
 import smtplib
+from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
@@ -303,3 +304,16 @@ class EmailIntegracion:
             print(f"Error Al enviar correo de contabilidad: {e}")
             return
             
+    @staticmethod
+    def email_error_correos():
+        mail_email=os.getenv("USER_MAIL")
+        mail_password=os.getenv("PASSWORD_MAIL")
+        mail=EmailMessage()
+        mail["Subject"]="Error en Correos aplicativo Fotovoltica"
+        mail["From"]="matic@edemco.co"
+        mail["To"]="jose.romero@edemco.co"
+        mail.set_content("Ocurrio un error en el envio de facturas (microservicio de python en el puerto 8091{`microservice_template-facturas`}) por correo, por favor ingrese a verificar el error para el envio de facturas")
+        with smtplib.SMTP("smtp.office365.com",587) as server:
+            server.starttls()
+            server.login(mail_email,mail_password)
+            server.send_message(mail)
