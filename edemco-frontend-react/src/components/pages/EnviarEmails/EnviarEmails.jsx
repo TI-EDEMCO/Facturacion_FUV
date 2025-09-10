@@ -165,13 +165,13 @@ const EnviarEmails = () => {
       })
       .then(async(authToken) => {
         setLoading(true)
-        const response = await PostTemplate(invoices,authToken?.data?.authorization)
-        if (!response.success) {
-          setLoading(false)
-          return toast.error('Ocurrió un error al generar las plantillas')
-        }
+        PostTemplate(invoices,authToken?.data?.authorization)
+        // if (!response.success) {
+        //   setLoading(false)
+        //   return toast.error('Ocurrió un error al generar las plantillas')
+        // }
         setLoading(false)
-        toast.success('Plantillas generadas correctamente')
+        toast.success('Las Plantillas se generaran y llegaran a los remitentes en un momento')
       });
   };
 
