@@ -120,55 +120,8 @@ const Login = () => {
 
           <Title text="Inicio de sesión" className="title--medium" />
         </header>
-
-        <form className="sesion" onSubmit={login}>
-          {/* <div className="login-form">
-            <div className="input-group">
-              <label htmlFor="username">
-                <i className="fa-regular fa-user"></i>
-              </label>
-
-              <Input
-                className={`${formValues.usernameHasError && 'input--error'}`}
-                errorMessage="El usuario es obligatorio"
-                hasError={formValues.usernameHasError}
-                id="username"
-                name="username"
-                onChange={handleChange}
-                placeholder="Usuario"
-                type="text"
-                value={formValues.username}
-              />
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="password">
-                <i className="fa-solid fa-key"></i>
-              </label>
-
-              <Input
-                className={`${formValues.passwordHasError && 'input--error'}`}
-                errorMessage="La contraseña es obligatoria"
-                hasError={formValues.passwordHasError}
-                id="password"
-                name="password"
-                onChange={handleChange}
-                placeholder="Contraseña"
-                type="password"
-                value={formValues.password}
-              />
-            </div>
-          </div>
-
-          <Button
-            className="login--big-button boton--margin"
-            disabled={loading}
-            isLoading={loading}
-            text={loading ? 'Iniciando sesión' : 'Iniciar Sesión'}
-          /> */}
-        </form>
         <Button
-        onClick={()=>{window.location.href="https://10.10.100.98:8080/oauth2/authorization/azure"}}
+        onClick={()=>{window.location.href="http://localhost:8080/oauth2/authorization/azure"}}
         text={"Inicio sesion"}
         />
         <div className="call-to-actions">

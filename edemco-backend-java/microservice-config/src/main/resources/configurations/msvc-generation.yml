@@ -26,5 +26,7 @@ eureka:
   instance:
     hostname: ${IP_SERVER}
   client:
-    service-url:
-      defaultZone: https://${IP_SERVER}:8761/eureka/
+  register-with-eureka: false
+  fetch-registry: false
+  service-url:
+    defaultZone: http://${IP_SERVER}:8761/eureka/

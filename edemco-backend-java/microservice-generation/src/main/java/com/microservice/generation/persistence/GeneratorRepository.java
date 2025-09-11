@@ -91,4 +91,11 @@ public interface GeneratorRepository extends CrudRepository<Generator, Long> {
      */
     @Query("SELECT g.valorTotal FROM Generator g WHERE g.anio = :anio AND g.mes = :mes AND g.idPlanta = :planta")
     Double findValorTotalByIdPlantaAndDate(Integer anio, Integer mes, String planta);
+
+
+
+    @Query("SELECT new com.microservice.generation.dto.GeneratorDTO(g.idGeneracion, g.generacionActual, g.generacionAcumulado, g.valorUnidad," +
+                "g.valorTotal, g.diferenciaTarifa, g.ahorroActual, g.ahorroAcumulado, g.ahorroCodosActual, g.ahorroCodosAcumulado, g.anio, g.mes,"+
+                "g.idTarifaOperador, g.idPlanta) FROM Generator g WHERE g.anio = :anio AND g.mes = :mes AND g.idPlanta = :planta")
+    GeneratorDTO findAllGeneracionData(Integer anio, Integer mes, String planta);
 }

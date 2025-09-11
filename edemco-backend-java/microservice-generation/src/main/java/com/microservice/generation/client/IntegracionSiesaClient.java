@@ -20,6 +20,15 @@ public interface IntegracionSiesaClient {
     String findIdPlantaByNombrePlanta(@RequestParam("nombrePlanta") String nombrePlanta);
 
     /**
+     * Obtiene el Nombre de una planta a partir de su Id.
+     *
+     * @param nombrePlanta Nombre de la planta para buscar su ID.
+     * @return ID de la planta.
+     */
+    @GetMapping("/api/planta/nombrePlanta")
+    String findNombrePlantaByIdPlanta(@RequestParam("idPlanta") String idPlanta);
+
+    /**
      * Obtiene el ID del operador asociado a una planta específica.
      *
      * @param idPlanta ID de la planta para buscar el operador.

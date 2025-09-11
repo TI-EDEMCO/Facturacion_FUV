@@ -3,8 +3,10 @@ package com.microservice.generation.service;
 import com.microservice.generation.controller.sto.OperadorDto;
 import com.microservice.generation.controller.sto.TarifaOperadorDto;
 import com.microservice.generation.dto.DatosGeneracionDTO;
+import com.microservice.generation.dto.DatosGeneracionExistentesDTO;
 import com.microservice.generation.dto.ValorUnidadDTO;
 import com.microservice.generation.dto.GeneratorDTO;
+import com.microservice.generation.dto.PlantasListDTO;
 import com.microservice.generation.entities.Generator;
 import org.springframework.http.ResponseEntity;
 
@@ -93,6 +95,14 @@ public interface IGeneratorService {
     String findIdPlantaByNombrePlanta(String nombrePlanta);
 
     /**
+     * Obtiene el ID de una planta a partir de su nombre.
+     *
+     * @param idPlanta Nombre de la planta.
+     * @return ID de la planta.
+     */
+    String findNombrePlantaByIdPlanta(String idPlanta);
+
+    /**
      * Obtiene la generación actual de una planta específica para una fecha dada.
      *
      * @param anio Año de la fecha.
@@ -164,4 +174,10 @@ public interface IGeneratorService {
      * @throws Exception Si ocurre un error en la comunicación con el cliente.
      */
     Float findCantidadKWhByIdPlantaAndDate(String idPlanta, Integer anio, Integer mes) throws Exception;
+
+    ResponseEntity<?> modifyGeneration(List<DatosGeneracionExistentesDTO> datosGeneracionExistentesDTOsList) throws Exception;
+
+    ResponseEntity<?> findAllGeneration(List<PlantasListDTO> plantasListDTOsList) throws Exception;
+
+    GeneratorDTO findAllGeneracionData(Integer anio, Integer mes, String planata);
 }

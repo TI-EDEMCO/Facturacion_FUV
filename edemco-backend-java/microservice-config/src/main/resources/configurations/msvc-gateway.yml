@@ -106,7 +106,7 @@ spring:
           filters:
             - AddRequestHeader=X-Forwarded-Host, ${IP_SERVER}:8080
             - AddRequestHeader=X-Forwarded-Port, 8080
-            - AddRequestHeader=X-Forwarded-Proto, http
+            - AddRequestHeader=X-Forwarded-Proto, https
 
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Methods Access-Control-Allow-Headers RETAIN_FIRST
