@@ -44,6 +44,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                             .header("loggedInUser", jwtUtil.extractUsername(authHeader))
                             .build();
                 }catch (Exception e){
+                    System.out.println(e);
                     throw new UnauthorizedAccessException("Acceso no autorizado a la aplicacion");
                 }
             }
