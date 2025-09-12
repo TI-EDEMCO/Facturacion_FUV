@@ -6,7 +6,7 @@ import jwt
 import base64
 import os
 from dotenv import load_dotenv
-env_path="C:/edemco--pruebas/edemco-backend-python/.env"
+env_path="C:/edemco/edemco-backend-python/.env"
 load_dotenv(env_path)
 app = Flask(__name__)
 CORS(app)
@@ -271,57 +271,13 @@ def apiPrueba():
                 fechaCUFE,
             )
 
-            microservice_email.prueba(cod_planta,headers)
-        
-        
-        # attachments = []
-        # image=[]
-        # with open('C:\\Users\\jose.romero\\OneDrive - EDEMCO S.A.S\\Escritorio\\Doc\\imagen.png','rb') as png:
-        #     img64=base64.b64encode(png.read()).decode("utf-8")
-        #     image.append(
-        #         {
-        #             "@odata.type":"#microsoft.graph.fileAttachment",
-        #             "name":"image.png",
-        #             "contentId":"image1",
-        #             "isInline":True,
-        #             "contentBytes":img64
-        #         }
-        #     )
-        # with open('C:\\PandasPY\\PruebaAutomatizacionExcel\\Excels\\Excel1.xlsx', 'rb') as file:
-        #     # se obtiene el type para el envio en correo
-        #     mime_type = mimetypes.guess_type(file.name)
-        #     file_content = file.read()
-        #     base64_encode = base64.b64encode(file_content)
-        #     attachments.append({
-        #         "@odata.type": "#microsoft.graph.fileAttachment",
-        #         "name": file.name.split("\\")[-1],
-        #         "contentType": mime_type[0],
-        #         "contentBytes": str(base64_encode).split("b'")[1].replace('\'','')
-        #     })
-        # message = {
-        #     "message": {
-        #         "subject": "Correo desde microservicio Python",
-        #         "body": {
-        #             "contentType": "HTML",
-        #             "content": '<img src="cid:image1" alt="Factura">'
-        #         },
-        #         "toRecipients": [
-        #             {
-        #                 "emailAddress": {
-        #                     "address": "jose.romero@edemco.co"
-        #                 }
-        #             }
-        #         ]
-        #         ,
-        #         "attachments": [*attachments,*image
-        #         ]
-        #     }
-        # }
+            microservice_email.prueba(cod_planta,headers)        
 
         return "response", 200
     except Exception as e:
         print(str(e))
         response = {"status-code": 500, "error": str(e)}
+        microservice_email.email_error_correos()
         return jsonify(response), 500
 
 

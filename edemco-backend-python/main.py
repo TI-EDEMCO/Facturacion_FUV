@@ -15,7 +15,7 @@ microservices = [
 
 # Función para iniciar cada microservicio
 def start_microservice(path):
-    return subprocess.Popen(["venv/scripts/python", path])
+    return subprocess.Popen(["entornov/scripts/python", path])
 
 
 ruta_excel_relativa = os.path.dirname(__file__)

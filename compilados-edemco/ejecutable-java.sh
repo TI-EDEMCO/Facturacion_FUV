@@ -2,16 +2,16 @@
 
 # Lista ordenada de microservicios y sus puertos/endpoints de health check
 services=(
-    "microservice-config-0.0.1-SNAPSHOT.jar|https://10.10.100.98:8888/actuator/health|8888"
-    "microservice-eureka-0.0.1-SNAPSHOT.jar|https://10.10.100.98:8761/eureka/health|8761"
-    "microservice-gateway-0.0.1-SNAPSHOT.jar|https://10.10.100.98:8080/actuator/health|8080"
-    "microservice-factura-0.0.1-SNAPSHOT.jar|https://10.10.100.98:8060/actuator/health|8060"
-    "microservice-facturacion-especial-0.0.1-SNAPSHOT.jar|https://10.10.100.98:9081/actuator/health|9081"
-    "microservice-remitentes-0.0.1-SNAPSHOT.jar|https://10.10.100.98:8070/actuator/health|8070"
-    "microservice-security-0.0.1-SNAPSHOT.jar|https://10.10.100.98:8050/actuator/health|8050"
-    "microservice.generation-0.0.1-SNAPSHOT.jar|https://10.10.100.98:9092/actuator/health|9092"
-    "Operadores-0.0.1-SNAPSHOT.jar|https://10.10.100.98:9091/actuator/health|9091"
-    "IntegracionSiesa-0.0.1-SNAPSHOT.jar|https://10.10.100.98:9090/actuator/health|9090"
+    "microservice-config-0.0.1-SNAPSHOT.jar|http://localhost:8888/actuator/health|8888"
+    "microservice-eureka-0.0.1-SNAPSHOT.jar|http://localhost:8761/eureka/health|8761"
+    "microservice-gateway-0.0.1-SNAPSHOT.jar|http://localhost:8080/actuator/health|8080"
+    "microservice-factura-0.0.1-SNAPSHOT.jar|http://localhost:8060/actuator/health|8060"
+    "microservice-facturacion-especial-0.0.1-SNAPSHOT.jar|http://localhost:9081/actuator/health|9081"
+    "microservice-remitentes-0.0.1-SNAPSHOT.jar|http://localhost:8070/actuator/health|8070"
+    "microservice-security-0.0.1-SNAPSHOT.jar|http://localhost:8050/actuator/health|8050"
+    "microservice.generation-0.0.1-SNAPSHOT.jar|http://localhost:9092/actuator/health|9092"
+    "Operadores-0.0.1-SNAPSHOT.jar|http://localhost:9091/actuator/health|9091"
+    "IntegracionSiesa-0.0.1-SNAPSHOT.jar|http://localhost:9090/actuator/health|9090"
 )
 
 # Función para matar cualquier proceso que esté usando el nombre del archivo JAR
@@ -47,7 +47,7 @@ function wait_for_service() {
     local interval=5
 
     while [[ $elapsed -lt $timeout ]]; do
-        if curl -k "$url" > /dev/null; then
+        if curl "$url" > /dev/null; then
             echo "El servicio en $url está listo."
             return 0
         fi

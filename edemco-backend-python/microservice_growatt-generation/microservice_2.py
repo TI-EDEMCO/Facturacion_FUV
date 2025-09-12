@@ -13,7 +13,7 @@ class Microservice_2(AbstractAPI):
         formatDate = monthLast.strftime("%Y-%m")
 
         # Carpeta relativa donde se guardarán las descargas en el contenedor
-        download_dir = "C:\\Users\\usuario\\Downloads"
+        download_dir = "C:\\Users\\jose.romero\\Downloads"
         # download_dir = os.getenv("DOWNLOAD_DIR", "/downloads")  # Cambia "/app/downloads" a donde quieras que esté en el contenedor
         path_xlsx = f"{previousMonth}Generacion_{formatDate}.xls"
 

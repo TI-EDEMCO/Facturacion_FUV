@@ -3,5 +3,5 @@ Spring:
   application:
     name: msvc-integracion
   config:
-    import: optional:configserver:https://${IP_SERVER}:8888
+    import: optional:configserver:http://${IP_SERVER}:8888
 

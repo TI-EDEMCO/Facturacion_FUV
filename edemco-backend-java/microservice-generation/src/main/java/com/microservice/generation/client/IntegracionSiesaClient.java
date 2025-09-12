@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Cliente Feign para interactuar con el microservicio de integración Siesa.
  */
-@FeignClient(name = "msvc-integracion", url = "https://localhost:9090")
+@FeignClient(name = "msvc-integracion", url = "http://localhost:9090")
 public interface IntegracionSiesaClient {
 
     /**
@@ -18,6 +18,15 @@ public interface IntegracionSiesaClient {
      */
     @GetMapping("/api/planta/idplanta")
     String findIdPlantaByNombrePlanta(@RequestParam("nombrePlanta") String nombrePlanta);
+
+    /**
+     * Obtiene el Nombre de una planta a partir de su Id.
+     *
+     * @param nombrePlanta Nombre de la planta para buscar su ID.
+     * @return ID de la planta.
+     */
+    @GetMapping("/api/planta/nombrePlanta")
+    String findNombrePlantaByIdPlanta(@RequestParam("idPlanta") String idPlanta);
 
     /**
      * Obtiene el ID del operador asociado a una planta específica.
