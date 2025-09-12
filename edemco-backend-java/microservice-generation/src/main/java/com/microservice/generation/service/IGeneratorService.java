@@ -1,16 +1,17 @@
 package com.microservice.generation.service;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+
 import com.microservice.generation.controller.sto.OperadorDto;
 import com.microservice.generation.controller.sto.TarifaOperadorDto;
 import com.microservice.generation.dto.DatosGeneracionDTO;
 import com.microservice.generation.dto.DatosGeneracionExistentesDTO;
-import com.microservice.generation.dto.ValorUnidadDTO;
 import com.microservice.generation.dto.GeneratorDTO;
 import com.microservice.generation.dto.PlantasListDTO;
+import com.microservice.generation.dto.ValorUnidadDTO;
 import com.microservice.generation.entities.Generator;
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 /**
  * Interfaz para definir las operaciones del servicio de generación de datos.
@@ -175,7 +176,7 @@ public interface IGeneratorService {
      */
     Float findCantidadKWhByIdPlantaAndDate(String idPlanta, Integer anio, Integer mes) throws Exception;
 
-    ResponseEntity<?> modifyGeneration(List<DatosGeneracionExistentesDTO> datosGeneracionExistentesDTOsList) throws Exception;
+    ResponseEntity<?> modifyGeneration(DatosGeneracionExistentesDTO datosGeneracionExistentesDTO) throws Exception;
 
     ResponseEntity<?> findAllGeneration(List<PlantasListDTO> plantasListDTOsList) throws Exception;
 

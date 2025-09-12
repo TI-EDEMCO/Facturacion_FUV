@@ -3,11 +3,13 @@ import Modal from "../../layouts/Modal/Modal";
 import Table from "../../organisms/Table/Table";
 import PostGeneracionData from "../../../services/PostGeneracionData.service";
 import ModifyGeneracion from "../../molecules/ModifyGeneracion/ModifyGeneracion";
+import Button from "../../atoms/Button/Button";
 
-const ModificarGeneracion = ({ onClose, listCustumers }) => {
+const ModificarGeneracion = ({ onClose, listCustumers,SendToSiesa }) => {
   const [cargando, SetCargando] = useState(true);
   const [rows, SetRows] = useState();
-  const [showModal,SetShowModal]=useState(false)
+  const [InfoGeneracion, setInfoGeneracion] = useState();
+  const [showModal, SetShowModal] = useState(false);
   const ListaPlantas = [];
   const mes_anterior = new Date().getMonth();
   const anio = new Date().getFullYear();
@@ -15,13 +17,14 @@ const ModificarGeneracion = ({ onClose, listCustumers }) => {
     ListaPlantas.push({ id_planta: idPlanta, anio: anio, mes: mes_anterior })
   );
   useEffect(() => {
+    SetCargando(true)
     const BuscarGeneracionActual = async () => {
       const response = await PostGeneracionData(ListaPlantas);
       SetRows(response?.data?.body);
       SetCargando(false);
     };
     BuscarGeneracionActual();
-  }, []);
+  }, [showModal]);
 
   const columns = [
     "Planta",
@@ -45,7 +48,6 @@ const ModificarGeneracion = ({ onClose, listCustumers }) => {
     "Ahorro CO2 Actual": "ahorro_codos_actual",
     "Ahorro CO2 Acumulado": "ahorro_codos_acumulado",
   };
-  console.log("?", rows);
   return (
     <Modal onClose={onClose} title={"Verificacion Calculos"}>
       {cargando ? (
@@ -57,19 +59,24 @@ const ModificarGeneracion = ({ onClose, listCustumers }) => {
             className="tabla--max-width"
             columnKeyMap={columnsKeyMap}
             columns={columns}
-            onEditRow={() => {
-              SetShowModal(true)
+            onEditRow={(rowData) => {
+              setInfoGeneracion(rowData);
+              SetShowModal(true);
             }}
             rows={rows}
             rowsPerPage={20}
             showPagination={false}
           />
+          <Button onClick={SendToSiesa} text={"Generar Factura/s"}/>
           {showModal ? (
             <Modal
-              onClose={() => console.log("hola")}
-              title={"modificacion generacion actual"}
+              onClose={() => SetShowModal(false)}
+              title={`Modificando Generacion Actual ${InfoGeneracion?.NombrePlanta}`}
             >
-              <ModifyGeneracion idGeneracion={10} />
+              <ModifyGeneracion
+                idGeneracion={InfoGeneracion?.id_generacion}
+                valorgeneracion={InfoGeneracion?.generacion_actual}
+              />
             </Modal>
           ) : null}
         </>

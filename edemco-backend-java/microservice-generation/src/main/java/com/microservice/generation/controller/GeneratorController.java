@@ -1,14 +1,22 @@
 package com.microservice.generation.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.microservice.generation.dto.DatosGeneracionDTO;
+import com.microservice.generation.dto.DatosGeneracionExistentesDTO;
 import com.microservice.generation.dto.PlantasListDTO;
 import com.microservice.generation.dto.ValorUnidadDTO;
 import com.microservice.generation.service.GeneratorServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Controlador para la gestión de generación de datos y cálculos relacionados.
@@ -77,5 +85,11 @@ public class GeneratorController {
     @PostMapping("/datos_generacion_actual")
     public ResponseEntity<?> findAllGeneration(@RequestBody List<PlantasListDTO> plantasListDTOsList) throws Exception{
         return ResponseEntity.ok(generatorService.findAllGeneration(plantasListDTOsList));
+    }
+
+
+    @PostMapping("/modify_generacion")
+    public ResponseEntity<?> modifyGeneration(@RequestBody DatosGeneracionExistentesDTO datosGeneracionExistente) throws Exception{
+        return ResponseEntity.ok(generatorService.modifyGeneration(datosGeneracionExistente));
     }
 }

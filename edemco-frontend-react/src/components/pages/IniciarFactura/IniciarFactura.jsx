@@ -156,6 +156,7 @@ const IniciarFactura = () => {
     }
   };
   const siesaIntegration = async () => {
+    console.log("envio a siesa")
     const todayDate = new Date().toISOString().split("T")[0];
 
     const result = await PostSiesaIntegration(customers, todayDate);
@@ -169,6 +170,8 @@ const IniciarFactura = () => {
       PostCorreoContabilidad(ListaPlantas, token.authorization);
       toast.success("Facturas generadas con éxito!");
     } else {
+      toast.error("Error al generar facturas en Siesa")
+      SetOpenModal(false)
       console.error("Failed to integrate on siesa:", result.error);
     }
 
@@ -296,9 +299,9 @@ const IniciarFactura = () => {
         )}
 
         <Button
-          disabled={false}
-          isLoading={false}
-          text={false ? "Cargando" : "Iniciar Facturación"}
+          disabled={isLoading}
+          isLoading={isLoading}
+          text={isLoading ? "Cargando" : "Iniciar Facturación"}
         />
       </form>
       {openModal && (
@@ -306,7 +309,9 @@ const IniciarFactura = () => {
           open={openModal}
           onClose={() => {
             SetOpenModal(false);
+            setIsLoading(false)
           }}
+          SendToSiesa={siesaIntegration}
           listCustumers={customers}
         />
       )}

@@ -40,11 +40,12 @@ const Input = ({
   onChange,
   placeholder,
   type,
-  value
+  value,
+  allowDecimals
 }) => {
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (type === 'number' && event.key === 'e') event.preventDefault()
+      if (type === 'number' && (event.key === 'e' || event.key==="E")) event.preventDefault()
     }
 
     const input = document.querySelector(`#${id}`)
@@ -66,6 +67,7 @@ const Input = ({
         className={`input ${className && className}`}
         id={id}
         name={name}
+        step={allowDecimals?"any":""}
         onChange={onChange}
         placeholder=""
         type={type}

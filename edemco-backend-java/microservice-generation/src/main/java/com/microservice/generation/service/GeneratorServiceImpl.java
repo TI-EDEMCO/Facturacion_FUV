@@ -83,10 +83,6 @@ public class GeneratorServiceImpl implements IGeneratorService {
                     continue;
                 }
 
-                if (!findGenerationsByDate(anio, mesActual, idPlanta).isEmpty()) {
-                    continue;
-                }
-
                 Long idOperador = findIdOperadorByIdPlanta(idPlanta);
                 TarifaOperadorDto tarifaOperadorDto = getTarifaOperadorByOperadorId(idOperador, mesActual);
                 Double tarifaOperador = tarifaOperadorDto.getTarifaOperador();
@@ -133,29 +129,108 @@ public class GeneratorServiceImpl implements IGeneratorService {
                 } else {
                     ahorroCodosAcumulado = ahorroCodosActual;
                 }
-
-                Generator generator = new Generator();
-                generator.setAhorroActual(ahorroActual);
-                generator.setAhorroAcumulado(ahorroAcumulado);
-                generator.setAhorroCodosActual(ahorroCodosActual);
-                generator.setAhorroCodosAcumulado(ahorroCodosAcumulado);
-                generator.setAnio(anio);
-                generator.setDiferenciaTarifa(diferencia);
-                generator.setGeneracionActual(generacionActual);
-                generator.setGeneracionAcumulado(generacionAcumulada);
-                generator.setMes(mesActual);
-                generator.setValorUnidad(valorUnidad);
-                generator.setValorTotal(valorTotal);
-                generator.setIdTarifaOperador(tarifaOperadorDto.getIdTarifa());
-                generator.setIdPlanta(idPlanta);
-                generatorRepository.save(generator);
+                GeneratorDTO existeGeneracion=findGenerationsByDate(anio, mesActual, idPlanta).get(0);
+                if (!findGenerationsByDate(anio, mesActual, idPlanta).isEmpty()) {
+                    Generator generator = generatorRepository.findById(existeGeneracion.getIdGeneracion()).get();
+                    generator.setAhorroActual(ahorroActual);
+                    generator.setAhorroAcumulado(ahorroAcumulado);
+                    generator.setAhorroCodosActual(ahorroCodosActual);
+                    generator.setAhorroCodosAcumulado(ahorroCodosAcumulado);
+                    generator.setAnio(anio);
+                    generator.setDiferenciaTarifa(diferencia);
+                    generator.setGeneracionActual(generacionActual);
+                    generator.setGeneracionAcumulado(generacionAcumulada);
+                    generator.setMes(mesActual);
+                    generator.setValorUnidad(valorUnidad);
+                    generator.setValorTotal(valorTotal);
+                    generator.setIdTarifaOperador(tarifaOperadorDto.getIdTarifa());
+                    generator.setIdPlanta(idPlanta);
+                    generatorRepository.save(generator);
+                } else{
+                    Generator generator =new Generator();
+                    generator.setAhorroActual(ahorroActual);
+                    generator.setAhorroAcumulado(ahorroAcumulado);
+                    generator.setAhorroCodosActual(ahorroCodosActual);
+                    generator.setAhorroCodosAcumulado(ahorroCodosAcumulado);
+                    generator.setAnio(anio);
+                    generator.setDiferenciaTarifa(diferencia);
+                    generator.setGeneracionActual(generacionActual);
+                    generator.setGeneracionAcumulado(generacionAcumulada);
+                    generator.setMes(mesActual);
+                    generator.setValorUnidad(valorUnidad);
+                    generator.setValorTotal(valorTotal);
+                    generator.setIdTarifaOperador(tarifaOperadorDto.getIdTarifa());
+                    generator.setIdPlanta(idPlanta);
+                    generatorRepository.save(generator);
+                }
+                // Generator generator = new Generator();
+                
             }
         }
         return ResponseEntity.ok("Datos procesados correctamente");
     }
 
     @Override
-    public ResponseEntity<?> modifyGeneration(List<DatosGeneracionExistentesDTO> datosGeneracionExistentesDTOsList) throws Exception {
+    public ResponseEntity<?> modifyGeneration(DatosGeneracionExistentesDTO datosGeneracionExistentesDTO) throws Exception {
+        Long idGeneracion=datosGeneracionExistentesDTO.getIdGeneracion();
+        Double valorGeneracion =datosGeneracionExistentesDTO.getValorGeneracion();
+        Generator registroGeneracion=generatorRepository.findById(idGeneracion).get();
+        String idPlanta =registroGeneracion.getIdPlanta();
+        String nombrePlanta= findNombrePlantaByIdPlanta(idPlanta);
+        Integer mesActual=registroGeneracion.getMes();
+        Integer anio=registroGeneracion.getAnio();
+        Long idOperador = findIdOperadorByIdPlanta(idPlanta);
+        TarifaOperadorDto tarifaOperadorDto = getTarifaOperadorByOperadorId(idOperador, mesActual);
+        Double tarifaOperador = tarifaOperadorDto.getTarifaOperador();
+        Double valorUnidad = findValorUnidadByIdPlanta(idPlanta);
+        Double diferencia = tarifaOperador - valorUnidad;
+        Double generacionAcumulada = generatorRepository.findGeneracionAcumuladaByDateAndPlanta(anio, mesActual - 1, idPlanta);
+        if (generacionAcumulada != null) {
+                    generacionAcumulada = generacionAcumulada + valorGeneracion;
+                } else {
+                    generacionAcumulada = valorGeneracion;
+                }
+        Double valorTotal = 0.0;
+        try {
+            System.out.println(nombrePlanta);
+            if (Objects.equals(checkFacturacionEspecial(idPlanta), idPlanta) && checkFacturacionEspecial(idPlanta) != null) {
+                Float cantidadKwh = findCantidadKWhByIdPlantaAndDate(idPlanta, anio, mesActual);
+                if (cantidadKwh==null){
+                    return (ResponseEntity<?>) ResponseEntity.status(301);
+                }
+                System.out.println(valorGeneracion - cantidadKwh);
+                valorTotal = (valorGeneracion - cantidadKwh) * valorUnidad;
+            } else {
+                valorTotal = valorGeneracion * valorUnidad;
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        Double ahorroActual = diferencia * valorGeneracion;
+
+        Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
+        if (ahorroAcumulado != null) {
+            ahorroAcumulado = ahorroAcumulado + ahorroActual;
+        } else {
+            ahorroAcumulado = ahorroActual;
+        }
+
+        Double ahorroCodosActual = valorGeneracion * 0.504;
+        Double ahorroCodosAcumulado = generatorRepository.findAhorroCodosAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
+        if (ahorroCodosAcumulado != null) {
+            ahorroCodosAcumulado = ahorroCodosAcumulado + ahorroCodosActual;
+        } else {
+            ahorroCodosAcumulado = ahorroCodosActual;
+        }
+        registroGeneracion.setAhorroActual(ahorroActual);
+        registroGeneracion.setAhorroAcumulado(ahorroAcumulado);
+        registroGeneracion.setAhorroCodosActual(ahorroCodosActual);
+        registroGeneracion.setAhorroCodosAcumulado(ahorroCodosAcumulado);
+        registroGeneracion.setDiferenciaTarifa(diferencia);
+        registroGeneracion.setGeneracionActual(valorGeneracion);
+        registroGeneracion.setGeneracionAcumulado(generacionAcumulada);
+        registroGeneracion.setValorTotal(valorTotal);
+        generatorRepository.save(registroGeneracion);
         return ResponseEntity.ok("Buena url");
     }
 

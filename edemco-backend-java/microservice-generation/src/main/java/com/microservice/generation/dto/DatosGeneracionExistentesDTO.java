@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DatosGeneracionExistentesDTO {
-    private String nombre;
+    private Long idGeneracion;
+    private Double valorGeneracion;
 }
