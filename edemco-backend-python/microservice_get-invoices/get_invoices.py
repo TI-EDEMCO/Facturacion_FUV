@@ -5,7 +5,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
-env_file="C:/edemco/edemco-backend-python/.env"
+env_file="C:/edemco--prueba/edemco-backend-python/.env"
 load_dotenv(env_file)
 
 app = Flask(__name__)

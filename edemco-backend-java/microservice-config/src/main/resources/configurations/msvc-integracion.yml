@@ -1,11 +1,11 @@
 server:
   port: 9090
-  # ssl:
-  #   enabled: true
-  #   key-store: file:/${KEY_RELATIVE_PATH}
-  #   key-store-password: ${KEY_PASSWORD}
-  #   key-store-type: PKCS12
-  #   key-alias: ${KEY_ALIAS}
+  ssl:
+    enabled: true
+    key-store: file:/${KEY_RELATIVE_PATH}
+    key-store-password: ${KEY_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: ${KEY_ALIAS}
 
 spring:
   application:
@@ -40,4 +40,4 @@ eureka:
     hostname: ${IP_SERVER}
   client:
     service-url:
-      defaultZone: http://${IP_SERVER}:8761/eureka/
+      defaultZone: https://${IP_SERVER}:8761/eureka/

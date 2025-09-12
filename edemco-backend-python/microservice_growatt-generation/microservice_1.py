@@ -1,7 +1,7 @@
 # Importar y cargar variables de entorno
 import os
 from dotenv import load_dotenv
-env_path="C:/edemco/edemco-backend-python/.env"
+env_path="C:/edemco--prueba/edemco-backend-python/.env"
 load_dotenv()
 # Importamos la clase AbstractAPI del módulo process
 from process import AbstractAPI

@@ -6,7 +6,7 @@ import jwt
 import base64
 import os
 from dotenv import load_dotenv
-env_path="C:/edemco/edemco-backend-python/.env"
+env_path="C:/edemco--prueba/edemco-backend-python/.env"
 load_dotenv(env_path)
 app = Flask(__name__)
 CORS(app)
