@@ -40,6 +40,11 @@ public class PlantaController {
         return plantaService.findIdPlantaByNombrePlanta(nombrePlanta);
     }
 
+    @GetMapping("/nombrePlanta")
+    public String findPlantaByIdPlanta(@RequestParam("idPlanta") String idPlanta){
+        return plantaService.findNombrePlantaByIdPlanta(idPlanta);
+    }
+
     /**
      * Obtiene el identificador del operador asociado a una planta específica.
      *

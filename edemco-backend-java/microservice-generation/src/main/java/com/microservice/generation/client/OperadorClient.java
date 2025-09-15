@@ -1,15 +1,16 @@
 package com.microservice.generation.client;
 
-import com.microservice.generation.controller.sto.OperadorDto;
-import com.microservice.generation.controller.sto.TarifaOperadorDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.microservice.generation.controller.sto.OperadorDto;
+import com.microservice.generation.controller.sto.TarifaOperadorDto;
+
 /**
  * Cliente Feign para interactuar con el microservicio de operadores.
  */
-@FeignClient(name = "msvc-operadores", url = "https://localhost:9091")
+@FeignClient(name = "msvc-operadores", url = "https://10.10.100.98:9091")
 public interface OperadorClient {
 
     /**

@@ -7,10 +7,10 @@ export default defineConfig({
   build:{
     sourcemap:true
   },
-  server :{
-    https:{
-      key:"./microservicio-key.key",
-      cert :"./microservicio.crt"
-    }
-  }
+  // server :{
+  //   https:{
+  //     key:"./microservicio-key.key",
+  //     cert :"./microservicio.crt"
+  //   }
+  // }
 })

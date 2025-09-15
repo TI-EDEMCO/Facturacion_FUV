@@ -68,6 +68,7 @@ const fetchWithToken = async (url, options = {}, isPython = false) => {
     ) {
       return { success: true, data }
     }
+    console.log(data)
 
     if (data.statusCode === UNAUTHORIZED_STATUS_CODE) {
       console.log("unautorizate")
@@ -75,7 +76,7 @@ const fetchWithToken = async (url, options = {}, isPython = false) => {
       Cookies.remove('refreshToken')
 
       window.location.href = '/'
-      return { success: false, error: data.message }
+      // return { success: false, error: data.message }
       // const refreshResult = await PostNewAccessToken()
 
       // if (

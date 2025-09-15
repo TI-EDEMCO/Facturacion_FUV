@@ -15,3 +15,7 @@ class microservice_email(EmailIntegracion):
     def email_contabilidad(Plantas, headers):
         instance_mail=EmailIntegracion()
         instance_mail.email_contabilidad(Plantas,headers)
+    @staticmethod
+    def email_error_correos():
+        instace_mail=EmailIntegracion()
+        instace_mail.email_error_correos()

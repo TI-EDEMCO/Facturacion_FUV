@@ -1,16 +1,16 @@
 package com.IntegracionSiesa.client;
 
-import com.IntegracionSiesa.dto.FacturaRequestDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import com.IntegracionSiesa.dto.FacturaRequestDTO;
 
 /**
  * Cliente Feign para interactuar con el microservicio de facturación.
  */
-@FeignClient(name = "msvc-factura", url = "https://localhost:8060")
+@FeignClient(name = "msvc-factura", url = "https://10.10.100.98:8060")
 public interface FacturaClient {
 
     /**

@@ -74,7 +74,7 @@ public class AuthConfig {
 
             response.addHeader(HttpHeaders.SET_COOKIE,cookie.toString());
 
-            response.sendRedirect("https://192.168.56.1:5173/principal");
+            response.sendRedirect("https://10.10.100.98:5173/principal");
         };
     }
     /**
