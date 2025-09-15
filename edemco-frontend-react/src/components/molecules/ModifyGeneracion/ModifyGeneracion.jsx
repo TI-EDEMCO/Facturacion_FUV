@@ -30,7 +30,7 @@ import "./ModifyGeneracion.css";
  * - El componente utiliza servicios `GetRemittersByIdPlanta`, `PostRemitter` y `DeleteRemitter` para interactuar con datos remotos.
  * - Mensajes de error y éxito son gestionados con la librería `react-toastify`.
  */
-const ModifyGeneracion = ({ idGeneracion, valorgeneracion }) => {
+const ModifyGeneracion = ({ idGeneracion, valorgeneracion,close }) => {
   const initialFormValues = {
     generacionActual: parseFloat(valorgeneracion.replace(",", ".")),
     generacionActualHasError: false,
@@ -85,7 +85,8 @@ const ModifyGeneracion = ({ idGeneracion, valorgeneracion }) => {
 
     await PostModifyGenerationData(NewGeneracion)
       .then((result) => {
-        console.log(result);
+        toast.success("Generacion modificada correctamente, verifique los calculos")
+        close()
       })
       .catch((error) => {
         console.error("Error fetching customers:", error);

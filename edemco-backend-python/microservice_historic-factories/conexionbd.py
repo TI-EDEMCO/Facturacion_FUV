@@ -1,7 +1,7 @@
 import pyodbc
 import os
 from dotenv import load_dotenv
-env_file="C:/edemco--prueba/edemco-backend-python/.env"
+env_file="C:/edemco--pruebas/edemco-backend-python/.env"
 load_dotenv(env_file)
 
 class Conexion:
