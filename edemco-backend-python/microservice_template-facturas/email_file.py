@@ -12,7 +12,6 @@ import os
 import pyodbc
 import base64
 import mimetypes
-from pathlib import Path
 from dotenv import load_dotenv
 env_file="C:/edemco/edemco-backend-python/.env"
 load_dotenv(env_file)
