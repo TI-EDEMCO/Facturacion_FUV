@@ -2,7 +2,7 @@ spring:
   application:
     name: msvc-security
   config:
-    import: optional:configserver:http://${IP_SERVER}:8888
+    import: optional:configserver:https://${IP_SERVER}:8888
 
 server:
   port: 8080

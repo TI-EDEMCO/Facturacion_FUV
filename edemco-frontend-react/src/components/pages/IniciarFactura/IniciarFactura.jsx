@@ -114,7 +114,7 @@ const IniciarFactura = () => {
   };
 
   const sendDataToGrowatt = async () => {
-    // GetGrowattDataDowload()
+    GetGrowattDataDowload()
     setTimeout(async () => {
       const result = await GetGrowattData();
       if (result.success) {
@@ -126,7 +126,7 @@ const IniciarFactura = () => {
         console.error("Failed to get data from growatt:", result.error);
         setIsLoading(false);
       }
-    }, 1000);
+    }, 90000);
   };
 
   const uploadFile = async (excelFile) => {
@@ -156,7 +156,6 @@ const IniciarFactura = () => {
     }
   };
   const siesaIntegration = async () => {
-    console.log("envio a siesa")
     const todayDate = new Date().toISOString().split("T")[0];
 
     const result = await PostSiesaIntegration(customers, todayDate);

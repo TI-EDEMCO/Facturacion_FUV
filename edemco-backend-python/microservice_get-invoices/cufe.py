@@ -10,7 +10,7 @@ import time
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
-env_file="C:/edemco/edemco-backend-python/.env"
+env_file="C:/edemco--pruebas/edemco-backend-python/.env"
 load_dotenv(env_file)
 IP_SERVER=os.getenv("IP_PROTOCOL_SERVE")
 # Configurar el registro con codificación UTF-8 y modo sobrescritura
