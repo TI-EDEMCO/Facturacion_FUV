@@ -4,7 +4,6 @@ class microservice_email(EmailIntegracion):
     
     @staticmethod
     def ejecucion(cod_planta, correo, password):
-
         instance_email = EmailIntegracion()
         instance_email.email_credenciales(cod_planta, correo, password)
     @staticmethod
@@ -19,3 +18,7 @@ class microservice_email(EmailIntegracion):
     def email_error_correos():
         instace_mail=EmailIntegracion()
         instace_mail.email_error_correos()
+    @staticmethod
+    def email_factura_aprobada(Numero_factura):
+        instace_mail=EmailIntegracion()
+        instace_mail.email_factura_aprobada(Numero_factura)

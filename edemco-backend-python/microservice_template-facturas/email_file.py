@@ -7,13 +7,18 @@ from email.mime.image import MIMEImage
 from datetime import datetime,timedelta
 import requests
 from info_email import DTO_email
+from jinja2 import FileSystemLoader,Environment
 import os
 import pyodbc
 import base64
 import mimetypes
+from pathlib import Path
 from dotenv import load_dotenv
 env_file="C:/edemco/edemco-backend-python/.env"
 load_dotenv(env_file)
+
+templateLoader = FileSystemLoader(searchpath="C:\\edemco\\edemco-backend-python\\microservice_template-facturas\\templates")
+templateENV = Environment(loader=templateLoader)
 
 class EmailIntegracion:
 
@@ -36,7 +41,7 @@ class EmailIntegracion:
             conn = pyodbc.connect(conn_str)
             cursor = conn.cursor()
             cursor.execute("""
-                SELECT e.email 
+                SELECT e.email
                 FROM email e
                 JOIN planta p ON e.id_planta = p.id_planta
                 WHERE e.id_planta = ?
@@ -114,7 +119,7 @@ class EmailIntegracion:
             conn = pyodbc.connect(conn_str)
             cursor = conn.cursor()
             cursor.execute("""
-                SELECT e.email 
+                SELECT e.email
                 FROM email e
                 JOIN planta p ON e.id_planta = p.id_planta
                 WHERE e.id_planta = ?
@@ -202,8 +207,8 @@ class EmailIntegracion:
             cursor = conn.cursor()
             for planta in Plantas:
                 cursor.execute(f"""
-                    select g.valor_total,p.nombre_planta 
-                    from generacion g inner join planta 
+                    select g.valor_total,p.nombre_planta
+                    from generacion g inner join planta
                     p on g.id_planta=p.id_planta where anio={año_mes_anterior} and
                     mes={mes_anterior_numero} and p.nombre_planta='{planta}'
                 """)
@@ -220,20 +225,20 @@ class EmailIntegracion:
                 conn.close()
         email_list=os.getenv("EmailsContabilidad").split(",")
         toRecipients=[{"emailAddress":{"address":email}} for email in email_list]
-        style="""<style> 
+        style="""<style>
         .imagen{
       width:200px;
         display: block;
   margin-left: auto;
-  margin-right: auto;  
+  margin-right: auto;
     }
   .button{
-    display: inline-block; 
-    padding: 10px 30px; 
-    font-size: 16px; 
-    color: #fff; 
-    background-color:#0cb645; 
-    text-decoration: none; 
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 16px;
+    color: #fff;
+    background-color:#0cb645;
+    text-decoration: none;
     border-radius: 5px;
   }
     .container {
@@ -278,7 +283,7 @@ class EmailIntegracion:
     </div>
     <div class="footer">
           Seguimos mejorando con buena energía. <br>
-          ¡Que tengas un excelente día!<br> 
+          ¡Que tengas un excelente día!<br>
       © 2025 Edemco. Todos los derechos reservados.
     </div>
   </div>"""
@@ -303,7 +308,7 @@ class EmailIntegracion:
         except pyodbc.Error as e:
             print(f"Error Al enviar correo de contabilidad: {e}")
             return
-            
+
     @staticmethod
     def email_error_correos():
         mail_email=os.getenv("USER_MAIL")
@@ -317,3 +322,43 @@ class EmailIntegracion:
             server.starttls()
             server.login(mail_email,mail_password)
             server.send_message(mail)
+
+    @staticmethod
+    def email_factura_aprobada(Numero_factura):
+        Fes_file=f"{Numero_factura}.xml"
+        try:
+            conn_str = os.getenv("SQL_URL_PYODBC")
+            conn = pyodbc.connect(conn_str)
+            cursor = conn.cursor()
+            cursor.execute("""
+                select p.nombre_planta from factura f
+            inner join planta p on f.id_planta=p.id_planta where f.numero_factura= ?
+            """, (Numero_factura,))
+            Nombre_Planta = cursor.fetchone()[0]
+        except Exception as e :
+            print("No se logro conectar a la BD",e)
+        html_body=templateENV.get_template("Factura_aprobada.html").render(Nombre_planta=Nombre_Planta)
+        mail_email=os.getenv("USER_MAIL")
+        mail_password=os.getenv("PASSWORD_MAIL")
+        msg = MIMEMultipart()
+        msg['From'] = mail_email
+        msg['To'] = "jose.romero@edemco.co"
+        msg['Subject'] = "Factura prueba XML"
+        msg.attach(MIMEText(html_body,'html'))
+        #Add XML
+        with open(f"Z:\\{Fes_file}", "rb") as f:
+            xml_attached=MIMEApplication(f.read(),_subtype="xml")
+            xml_attached.add_header('Content-Disposition', 'attachment', filename=Fes_file)
+            msg.attach(xml_attached)
+        smtp_server = 'smtp.office365.com'
+        smtp_port = 587
+        smtp_username = mail_email
+        smtp_password = mail_password
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_username, smtp_password)
+            server.sendmail(mail_email, "jose.romero@edemco.co", msg.as_string())
+
+
+
+
