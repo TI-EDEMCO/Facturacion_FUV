@@ -26,4 +26,4 @@ eureka:
     hostname: ${IP_SERVER}
   client:
     service-url:
-      defaultZone: http://${IP_SERVER}:8761/eureka/
+      defaultZone: ${IP_PROTOCOL_SERVE}:8761/eureka/

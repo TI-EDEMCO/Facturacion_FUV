@@ -13,32 +13,17 @@ import './Login.css'
 * Login Component
 *
 * Función:
-* Renderiza el formulario de inicio de sesión que permite a los usuarios autenticarse en la plataforma.
-* - Valida los campos de usuario y contraseña.
-* - Envía las credenciales al servicio de autenticación.
-* - Guarda los tokens de acceso y refresco en cookies si la autenticación es exitosa.
-* - Redirige al usuario a la página principal tras iniciar sesión.
+* Renderiza modal con boton para redirección para el inicio de sesion de Microsoft .
+* - Redirige al usuario a la página de inicio de sesion.
 *
-* Estado interno:
-* @param {Object} formValues - Almacena los valores del formulario y los estados de error de los campos.
-* @param {boolean} loading - Indica si el proceso de inicio de sesión está en curso.
-*
-* Métodos:
-* - `isFormValid`: Valida que los campos de usuario y contraseña no estén vacíos.
-* - `login`: Envía las credenciales al servicio remoto y maneja la autenticación.
-* - `handleChange`: Maneja los cambios en los campos del formulario.
 *
 * Componentes utilizados:
-* - `Input`: Para capturar el usuario y la contraseña.
-* - `Button`: Botón para iniciar el proceso de inicio de sesión.
+* - `Button`: Botón para redireccionar
 * - `Container`: Contenedor estilizado que agrupa el formulario y la interfaz.
 * - `Anchord`: Enlace para redirigir al registro de nuevos usuarios.
 *
 * Detalles adicionales:
 * - Utiliza `react-toastify` para notificaciones de error en tiempo real.
-* - Maneja el estado de carga y bloquea el formulario mientras se procesan las credenciales.
-* - Cambia dinámicamente el título de la página a "Edemco - Inicio de Sesión".
-* - Guarda los tokens de autenticación en cookies para usarlos en futuras solicitudes.
 */
 const Login = () => {
   useEffect(() => {

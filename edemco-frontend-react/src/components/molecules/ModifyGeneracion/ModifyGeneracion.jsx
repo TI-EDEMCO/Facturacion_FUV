@@ -5,29 +5,19 @@ import PostModifyGenerationData from "../../../services/PostModifyGenerationData
 import "./ModifyGeneracion.css";
 
 /*
- * Dropdown Component
+ * ModifyGeneracion Component
  *
  * Props:
- * @param {number|string} idPlanta - Identificador de la planta para obtener remitentes relacionados.
+ * @param {number|string} idGeneracion - Identificador del registro en la tabla de generación.
+ *  @param {string} valorgeneracion - Valor de la generación actual de la planta.
  *
  * Función:
- * Renderiza un dropdown interactivo para administrar remitentes asociados a una planta.
+ * Renderiza un dropdown interactivo para modificar el valor de la generación.
  *
- * - Muestra un listado de remitentes como "chips" con opciones para agregar o eliminar.
- * - Controla la visibilidad de los chips en función del tamaño disponible del contenedor.
- * - Incluye un formulario para agregar nuevos remitentes con validación básica.
- * - Ofrece una interfaz para eliminar remitentes existentes.
- *
- * Detalles clave:
- * - Usa `useEffect` para manejar las siguientes lógicas:
- *   - Obtención de remitentes al cargar el componente.
- *   - Actualización dinámica de los chips visibles según el tamaño del contenedor.
- *   - Manejo de clics externos para cerrar el dropdown.
- * - Control de errores con validación para campos vacíos y duplicados.
- * - Uso de referencias (`useRef`) para manejar clics externos y dimensiones del contenedor.
+ * - Incluye un formulario para modificar el valor de la generación.
  *
  * Notas adicionales:
- * - El componente utiliza servicios `GetRemittersByIdPlanta`, `PostRemitter` y `DeleteRemitter` para interactuar con datos remotos.
+ * - El componente utiliza servicios `PostModifyGenerationData` para interactuar con datos remotos.
  * - Mensajes de error y éxito son gestionados con la librería `react-toastify`.
  */
 const ModifyGeneracion = ({ idGeneracion, valorgeneracion }) => {

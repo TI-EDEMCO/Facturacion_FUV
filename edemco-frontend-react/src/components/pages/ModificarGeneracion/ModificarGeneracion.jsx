@@ -5,7 +5,40 @@ import PostGeneracionData from "../../../services/PostGeneracionData.service";
 import ModifyGeneracion from "../../molecules/ModifyGeneracion/ModifyGeneracion";
 import Button from "../../atoms/Button/Button";
 
-const ModificarGeneracion = ({ onClose, listCustumers,SendToSiesa }) => {
+/*
+* ModificarGeneracion Component
+*
+* Props:
+* @param {void} onClose - función para cerrar el Modal donde se visualiza la tabla
+* @param {Object} listCustumers - objeto con las plantas seleccionadas
+* @param {void} SendToSiesa - función qyue dispara el proceso de generar facturas
+*
+* Funcion:
+* Renderiza una tabla con la información de calculos de las plantas seleccionadas, con opcion 
+*   demodificar la generacin actual para re-hacer los calculos.
+* - Visualiza los calculos realizados de las plantas seleccionadas.
+* - Dispara el proceso para realizar las facturas en SIESA.
+*
+* Estado interno:
+* - @param {boolean} cargando - indica si esta actualizando la informacion de los calculos.
+* - @param {Object} rows - objeto que almacena la información de las plantas y sus calculos.
+* - @param {Object} InfoGeneracion - objeto que almacena la informacion de una planata especifica para modificar los calculos (para tomar el id del registro).
+* - @param {boolean} showModal - indica si se debe visualizar o no modal donde se modifica el valor de la generacion.
+* - @param {Array<objects>} ListaPlantas - array que almacena el id de plantas cuyos calculos se van a consultar.
+* - @param {Number} mes_anterior - numero del mes anterior para consultar los calculos.
+* - @param {Number} anio - numero del año actual para consultar los calculos.
+*
+* Métodos:
+* - `BuscarGeneracionActual`: funcion que realiza lña consulta de los calculos de las plantas.
+*
+* Componentes utilizados:
+* - `Modal`: Modal para visualizar o no el contenido de la tabla o input para la modificación.
+* - `Table`: Tabla para visualizar los calculos de las plantas.
+* - `ModifyGeneración`: Formulario para al modificacion del valor de la generación.
+* - `Button`: Boton para disparar el registro de las facturas en SIESA.
+*/
+
+const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
   const [cargando, SetCargando] = useState(true);
   const [rows, SetRows] = useState();
   const [InfoGeneracion, setInfoGeneracion] = useState();
@@ -17,7 +50,7 @@ const ModificarGeneracion = ({ onClose, listCustumers,SendToSiesa }) => {
     ListaPlantas.push({ id_planta: idPlanta, anio: anio, mes: mes_anterior })
   );
   useEffect(() => {
-    SetCargando(true)
+    SetCargando(true);
     const BuscarGeneracionActual = async () => {
       const response = await PostGeneracionData(ListaPlantas);
       SetRows(response?.data?.body);
@@ -54,7 +87,6 @@ const ModificarGeneracion = ({ onClose, listCustumers,SendToSiesa }) => {
         <span className="loader"></span>
       ) : (
         <>
-          {/* // <h1>hola</h1> */}
           <Table
             className="tabla--max-width"
             columnKeyMap={columnsKeyMap}
@@ -67,7 +99,7 @@ const ModificarGeneracion = ({ onClose, listCustumers,SendToSiesa }) => {
             rowsPerPage={20}
             showPagination={false}
           />
-          <Button onClick={SendToSiesa} text={"Generar Factura/s"}/>
+          <Button onClick={SendToSiesa} text={"Generar Factura/s"} />
           {showModal ? (
             <Modal
               onClose={() => SetShowModal(false)}

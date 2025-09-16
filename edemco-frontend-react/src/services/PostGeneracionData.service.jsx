@@ -1,16 +1,16 @@
 import fetchWithToken from '../utils/fetchWithToken'
 
 /*
-* PostGenerateCalculations Service
+* PostGeneracionData Service
 *
 * Función:
-* Realiza una solicitud HTTP para generar cálculos relacionados con generación de energía.
-* - Utiliza el método HTTP `POST` para enviar los datos necesarios para el cálculo.
+* Realiza una solicitud HTTP para obtener los cálculos relacionados con generación de energía.
+* - Utiliza el método HTTP `POST` para enviar los datos necesarios para obtener los datos.
 * - Incluye un token de autenticación para garantizar la seguridad.
 * - Devuelve un objeto que contiene la respuesta del servidor o detalles del error si la operación falla.
 *
 * Parámetros:
-* @param {Object} calculations - Objeto que contiene los datos necesarios para realizar los cálculos.
+* @param {Object} ListPlantas - Objeto que contiene los datos necesarios para consultar.
 *
 * Retorno:
 * @returns {Object} Resultado de la operación.
@@ -19,7 +19,7 @@ import fetchWithToken from '../utils/fetchWithToken'
 * - `error` (string, opcional): Contiene el mensaje de error si la operación falla.
 *
 * Detalles adicionales:
-* - La solicitud se realiza al endpoint `/api/generacion/calculos` utilizando el método HTTP `POST`.
+* - La solicitud se realiza al endpoint `/api/generacion/datos_generacion_actual` utilizando el método HTTP `POST`.
 * - Los datos de cálculo se envían como un string JSON en el cuerpo de la solicitud.
 * - Utiliza `fetchWithToken` para incluir automáticamente el token de autenticación en los encabezados de la solicitud.
 * - Maneja errores de red y respuestas no exitosas del servidor.
@@ -28,8 +28,8 @@ import fetchWithToken from '../utils/fetchWithToken'
 * ```javascript
 * const calculations = {
 *   idPlanta: '12345',
-*   energiaGenerada: 5000,
-*   costoUnitario: 150
+*   anio: 2025,
+*   mes: 7
 * }
 *
 * const result = await PostGenerateCalculations(calculations)

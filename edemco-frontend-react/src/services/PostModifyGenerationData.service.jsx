@@ -10,7 +10,7 @@ import fetchWithToken from '../utils/fetchWithToken'
 * - Devuelve un objeto que contiene la respuesta del servidor o detalles del error si la operación falla.
 *
 * Parámetros:
-* @param {Object} calculations - Objeto que contiene los datos necesarios para realizar los cálculos.
+* @param {Object} InfoGeneracion - Objeto que contiene los datos necesarios para re-hacer los cálculos.
 *
 * Retorno:
 * @returns {Object} Resultado de la operación.
@@ -19,7 +19,7 @@ import fetchWithToken from '../utils/fetchWithToken'
 * - `error` (string, opcional): Contiene el mensaje de error si la operación falla.
 *
 * Detalles adicionales:
-* - La solicitud se realiza al endpoint `/api/generacion/calculos` utilizando el método HTTP `POST`.
+* - La solicitud se realiza al endpoint `/api/generacion/modify_generacion` utilizando el método HTTP `POST`.
 * - Los datos de cálculo se envían como un string JSON en el cuerpo de la solicitud.
 * - Utiliza `fetchWithToken` para incluir automáticamente el token de autenticación en los encabezados de la solicitud.
 * - Maneja errores de red y respuestas no exitosas del servidor.
@@ -27,9 +27,8 @@ import fetchWithToken from '../utils/fetchWithToken'
 * Ejemplo de uso:
 * ```javascript
 * const calculations = {
-*   idPlanta: '12345',
-*   energiaGenerada: 5000,
-*   costoUnitario: 150
+*   valorGeneracion: '12345',
+*   idGeneracion: 15,
 * }
 *
 * const result = await PostGenerateCalculations(calculations)

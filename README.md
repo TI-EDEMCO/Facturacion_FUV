@@ -80,8 +80,10 @@ Para la ejecucion del proyecto se deben tener varias cosas en cuenta, como varia
 
 1. variables de entorno en microservicios de java, debe seguir la siguiente estructura y ubicarce en la misma ruta que el archivo .jar compilado (utilizando maven):
 ```
-#VARIABLES GENERALES
-IP_SERVER="10.255....."
+#VARIABLES GENERALES (utilizar http o https dependiendo de la configuracion)
+IP_PROTOCOL_SERVE="http(s)://10.2..."
+IP_SERVER="10.2...."
+URL_FRONT="http(s)://frontend:5173/principal"
 
 #VARIABLES PARA CERTIFICADO SSL EN FORMATO PKCS#12
 KEY_RELATIVE_PATH="C:\ubicacion de certificado\ certificado.p12"
@@ -118,7 +120,9 @@ SQL_URL_PYODBC="DRIVER={ODBC Driver 17 for SQL Server};SERVER=${IP_BD};DATABASE=
 #SECRET KEY
 SECRET_KEY="..."
 
-
+#PROTOCOLO Y IP QUE SE UTILIZARA PARA CONSULTAS INTERNAS
+IP_PROTOCOL_SERVE="http(s)://localhost"
+CORREOS_FACTURAS="correo1@mail.co,email2@mail.co"
 
 #GROWATT
 USER_NAME="${USER GROWATT}"
@@ -126,6 +130,10 @@ PASSWORD="${PASSWORD GROWATT}"
 
 #CORREOS DE CONTABILIDAD, UNA LISTA 
 EMAILSCONTABILIDAD="correo1@mail.co,correo2@mail.co.correo3@...."
+
+#CORREO GENERAL
+USER_MAIL="correoG@mail.co"
+PASSWORD_MAIL="PasswordMailGeneral"
 ```
 3. variables de entorno en front end (seguir de ejemplo el .env.example)
 
