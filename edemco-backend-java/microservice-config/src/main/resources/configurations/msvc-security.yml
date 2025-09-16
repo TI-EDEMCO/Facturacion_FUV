@@ -34,7 +34,7 @@ spring:
             client-secret: ${CLIENT_SECRET}
             scope: openid, profile, email
             authorization-grant-type: authorization_code
-            redirect-uri: "https://${IP_SERVER}:8080/login/oauth2/code/azure"
+            redirect-uri: "${IP_PROTOCOL_SERVE}:8080/login/oauth2/code/azure"
         provider:
           azure:
             issuer-uri: https://login.microsoftonline.com/aed8c5fc-8a52-4ad1-819d-93b2e9c562b4/v2.0
@@ -45,10 +45,11 @@ logging:
     org.springframework.web: DEBUG
 api:
   secret: ${SECRET_KEY}
+  URL_FRONT: ${URL_FRONT}
 
 eureka:
   instance:
     hostname: ${IP_SERVER}
   client:
     service-url:
-      defaultZone: https://${IP_SERVER}:8761/eureka/
+      defaultZone: ${IP_PROTOCOL_SERVE}:8761/eureka/

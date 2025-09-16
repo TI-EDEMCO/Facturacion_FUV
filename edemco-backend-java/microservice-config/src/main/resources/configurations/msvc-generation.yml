@@ -21,6 +21,8 @@ spring:
     database: sqlserver
     database-platform: org.hibernate.dialect.SQLServerDialect
 
+api:
+  IP_PROTOCOL: ${IP_PROTOCOL_SERVE}
 
 eureka:
   instance:
@@ -29,4 +31,4 @@ eureka:
   register-with-eureka: false
   fetch-registry: false
   service-url:
-    defaultZone: https://${IP_SERVER}:8761/eureka/
+    defaultZone: ${IP_PROTOCOL_SERVE}:8761/eureka/

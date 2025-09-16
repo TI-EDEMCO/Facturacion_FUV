@@ -108,7 +108,6 @@ class EmailIntegracion:
 
     @staticmethod
     def email_prueba(cod_planta,headers):
-        print("ESTO ES UNA PRUEBA DE CORREO")
         conn = None
         cursor = None
 
@@ -127,7 +126,6 @@ class EmailIntegracion:
 
             # Lista de correos electrónicos
             email_list = [row.email for row in result]
-            print(email_list,list(email_list))
 
         except pyodbc.Error as e:
             print(f"Error para cod planta: {cod_planta}: {e}")
@@ -143,12 +141,10 @@ class EmailIntegracion:
         info_email = DTO_email()
         asunto, route = info_email.execute(cod_planta)
         url_img = r'C:\\Users\\usuario\Desktop\\Encabezado_correo.png'
-        print(asunto,"<--@@@")
 
         image=[]
         attachments=[]
         with open(url_img,'rb') as png:
-            print(os.path.basename(url_img))
             img64=base64.b64encode(png.read()).decode("utf-8")
             image.append(
                 {
@@ -224,75 +220,15 @@ class EmailIntegracion:
                 conn.close()
         email_list=os.getenv("EmailsContabilidad").split(",")
         toRecipients=[{"emailAddress":{"address":email}} for email in email_list]
-        style="""<style>
-        .imagen{
-      width:200px;
-        display: block;
-  margin-left: auto;
-  margin-right: auto;
-    }
-  .button{
-    display: inline-block;
-    padding: 10px 30px;
-    font-size: 16px;
-    color: #fff;
-    background-color:#0cb645;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-    .container {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-    }
-    .header {
-      background-color: #0cb645;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      font-size: 20px;
-      border-radius: 8px 8px 0 0;
-    }
-    .content {
-      padding: 15px;
-      text-align: left;
-    }
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #666;
-      margin-top: 15px;
-    }
-    .text {
-      text-align:center;
-    }
-  </style>"""
-        content_email=f"""
-  <div class="container">
-    <img class="imagen" alt="Logo Edemco" src="https://www.edemco.co/uploads/files/logo-edemco.png" data-imagetype="External">
-    <div class="header">Notificación Facturas Fotovoltaica</div>
-    <div class="content">
-      <p class="text"><strong>Cordial Saludo</strong></p>
-      <p class="text">Se notifica que se acaba de registrar facturas de fotovoltaica para las siguientes plantas y su valor:</p>
-      <p class="text">{str(infoPlantas).replace("[","").replace("],","").replace("'","").replace("]","")}</p>
-    </div>
-    <div class="footer">
-          Seguimos mejorando con buena energía. <br>
-          ¡Que tengas un excelente día!<br>
-      © 2025 Edemco. Todos los derechos reservados.
-    </div>
-  </div>"""
+        Info_plantas=str(infoPlantas).replace("[","").replace("],","").replace("'","").replace("]","")
+        html_body=templateENV.get_template("Contabilidad.html").render(Info_plantas=Info_plantas)
         try:
             message = {
             "message": {
                 "subject": "Generacion de facturas de plantas PRUEBAS",
                 "body": {
                     "contentType": "HTML",
-                    "content": style+content_email
+                    "content": html_body
                 },
                 "toRecipients": toRecipients
             }
@@ -326,6 +262,7 @@ class EmailIntegracion:
     def email_factura_aprobada(Numero_factura):
         Fes_file=f"{Numero_factura}.xml"
         Fes_pdf=f"{Numero_factura}.pdf"
+        emails_to=os.getenv("CORREOS_FACTURAS").split(",")
         try:
             conn_str = os.getenv("SQL_URL_PYODBC")
             conn = pyodbc.connect(conn_str)
@@ -342,7 +279,7 @@ class EmailIntegracion:
         mail_password=os.getenv("PASSWORD_MAIL")
         msg = EmailMessage()
         msg['From'] = mail_email
-        msg['To'] = ["jose.romero@edemco.co"]
+        msg['To'] = emails_to
         msg['Subject'] = "Factura prueba XML"
         msg.add_alternative(html_body,subtype='html')
         #Add XML
@@ -358,7 +295,3 @@ class EmailIntegracion:
             server.starttls()
             server.login(smtp_username, smtp_password)
             server.send_message(msg)
-
-
-
-

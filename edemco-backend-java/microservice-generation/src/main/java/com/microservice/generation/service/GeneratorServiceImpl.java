@@ -129,23 +129,8 @@ public class GeneratorServiceImpl implements IGeneratorService {
                 } else {
                     ahorroCodosAcumulado = ahorroCodosActual;
                 }
-                GeneratorDTO existeGeneracion=findGenerationsByDate(anio, mesActual, idPlanta).get(0);
                 if (!findGenerationsByDate(anio, mesActual, idPlanta).isEmpty()) {
-                    Generator generator = generatorRepository.findById(existeGeneracion.getIdGeneracion()).get();
-                    generator.setAhorroActual(ahorroActual);
-                    generator.setAhorroAcumulado(ahorroAcumulado);
-                    generator.setAhorroCodosActual(ahorroCodosActual);
-                    generator.setAhorroCodosAcumulado(ahorroCodosAcumulado);
-                    generator.setAnio(anio);
-                    generator.setDiferenciaTarifa(diferencia);
-                    generator.setGeneracionActual(generacionActual);
-                    generator.setGeneracionAcumulado(generacionAcumulada);
-                    generator.setMes(mesActual);
-                    generator.setValorUnidad(valorUnidad);
-                    generator.setValorTotal(valorTotal);
-                    generator.setIdTarifaOperador(tarifaOperadorDto.getIdTarifa());
-                    generator.setIdPlanta(idPlanta);
-                    generatorRepository.save(generator);
+                    continue;
                 } else{
                     Generator generator =new Generator();
                     generator.setAhorroActual(ahorroActual);
@@ -163,7 +148,6 @@ public class GeneratorServiceImpl implements IGeneratorService {
                     generator.setIdPlanta(idPlanta);
                     generatorRepository.save(generator);
                 }
-                // Generator generator = new Generator();
                 
             }
         }
