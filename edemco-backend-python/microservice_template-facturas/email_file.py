@@ -339,16 +339,14 @@ class EmailIntegracion:
         html_body=templateENV.get_template("Factura_aprobada.html").render(Nombre_planta=Nombre_Planta)
         mail_email=os.getenv("USER_MAIL")
         mail_password=os.getenv("PASSWORD_MAIL")
-        msg = MIMEMultipart()
+        msg = EmailMessage()
         msg['From'] = mail_email
         msg['To'] = "jose.romero@edemco.co"
         msg['Subject'] = "Factura prueba XML"
-        msg.attach(MIMEText(html_body,'html'))
+        msg.add_alternative(html_body,subtype='html')
         #Add XML
         with open(f"Z:\\{Fes_file}", "rb") as f:
-            xml_attached=MIMEApplication(f.read(),_subtype="xml")
-            xml_attached.add_header('Content-Disposition', 'attachment', filename=Fes_file)
-            msg.attach(xml_attached)
+            msg.add_attachment(f.read(),maintype="application",subtype="xml",filename=Fes_file)
         smtp_server = 'smtp.office365.com'
         smtp_port = 587
         smtp_username = mail_email
@@ -356,7 +354,7 @@ class EmailIntegracion:
         with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()
             server.login(smtp_username, smtp_password)
-            server.sendmail(mail_email, "jose.romero@edemco.co", msg.as_string())
+            server.send_message(msg)
 
 
 
