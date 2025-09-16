@@ -321,5 +321,20 @@ def Email_contabilidad():
         response = {"status-code": 500, "error": str(e)}
         return jsonify(response), 500
 
+
+@cross_origin
+@app.route("/api/notificacion_factura",methods=["POST"])
+def Factura_Aprobada():
+    try:
+        Numero_Fes=request.get_json()["invoices_fes"]
+        print(Numero_Fes)
+        microservice_email.email_factura_aprobada(Numero_Fes)
+        response = {"status-code": 200, "si":"efectivamente"}
+        return jsonify(response), 200
+    except Exception as e:
+        print(e,"fallo al enviar correo de factura")
+        response = {"status-code": 500, "error":"F*ck"}
+        return jsonify(response), 500
+
 if __name__ == "__main__":
     app.run(debug=True, port=8091)
