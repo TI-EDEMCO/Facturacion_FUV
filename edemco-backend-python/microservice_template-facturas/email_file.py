@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 env_file="C:/edemco--pruebas/edemco-backend-python/.env"
 load_dotenv(env_file)
 
-templateLoader = FileSystemLoader(searchpath="C:\\edemco\\edemco-backend-python\\microservice_template-facturas\\templates")
+templateLoader = FileSystemLoader(searchpath="C:\\edemco--pruebas\\edemco-backend-python\\microservice_template-facturas\\templates")
 templateENV = Environment(loader=templateLoader)
 
 class EmailIntegracion:
@@ -342,7 +342,7 @@ class EmailIntegracion:
         mail_password=os.getenv("PASSWORD_MAIL")
         msg = EmailMessage()
         msg['From'] = mail_email
-        msg['To'] = "jose.romero@edemco.co"
+        msg['To'] = ["jose.romero@edemco.co"]
         msg['Subject'] = "Factura prueba XML"
         msg.add_alternative(html_body,subtype='html')
         #Add XML
