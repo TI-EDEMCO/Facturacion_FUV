@@ -325,6 +325,7 @@ class EmailIntegracion:
     @staticmethod
     def email_factura_aprobada(Numero_factura):
         Fes_file=f"{Numero_factura}.xml"
+        Fes_pdf=f"{Numero_factura}.pdf"
         try:
             conn_str = os.getenv("SQL_URL_PYODBC")
             conn = pyodbc.connect(conn_str)
@@ -345,8 +346,10 @@ class EmailIntegracion:
         msg['Subject'] = "Factura prueba XML"
         msg.add_alternative(html_body,subtype='html')
         #Add XML
-        with open(f"Z:\\{Fes_file}", "rb") as f:
-            msg.add_attachment(f.read(),maintype="application",subtype="xml",filename=Fes_file)
+        with open(f"Z:\\{Fes_file}", "rb") as fes:
+            msg.add_attachment(fes.read(),maintype="application",subtype="xml",filename=Fes_file)
+        with open(f"Y:\\{Fes_pdf}","rb") as pdf:
+            msg.add_attachment(pdf.read(),maintype="application",subtype="pdf",filename=Fes_pdf)
         smtp_server = 'smtp.office365.com'
         smtp_port = 587
         smtp_username = mail_email
