@@ -156,20 +156,34 @@ const IniciarFactura = () => {
     }
   };
   const siesaIntegration = async () => {
+    const id_toast= toast.loading("Enviado facturas",{
+      autoClose:false,
+      closeButton:false,
+      toastId :"customID"
+    })
+    const UpdateToast=(mensaje,type)=>{
+      toast.update(id_toast,{
+        render:`${mensaje}`,
+        autoClose: 5000,
+        type:`${type}`,
+        closeButton:null,
+        isLoading:false
+      })
+    }
     const todayDate = new Date().toISOString().split("T")[0];
-
     const result = await PostSiesaIntegration(customers, todayDate);
 
     if (result.success) {
+      UpdateToast("Generadas Correctamente","success")
       var ListaPlantas = [];
       const token = await Gettoken();
       customers.map(({ idPlanta, nombrePlanta }) => {
         ListaPlantas.push(`"${nombrePlanta}"`);
       });
       PostCorreoContabilidad(ListaPlantas, token.authorization);
-      toast.success("Facturas generadas con éxito!");
+      SetOpenModal(false)
     } else {
-      toast.error("Error al generar facturas en Siesa")
+      UpdateToast("Error al generar facturas","error")
       SetOpenModal(false)
       console.error("Failed to integrate on siesa:", result.error);
     }
