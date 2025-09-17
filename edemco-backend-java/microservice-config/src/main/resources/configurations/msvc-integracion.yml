@@ -24,6 +24,7 @@ spring:
 api:
   connikey: ${CONNI_KEY}
   conniToken: ${CONNI_TOKEN}
+  IP_PROTOCOL: ${IP_PROTOCOL_SERVE}
 
 logging:
   level:
@@ -40,4 +41,4 @@ eureka:
     hostname: ${IP_SERVER}
   client:
     service-url:
-      defaultZone: https://${IP_SERVER}:8761/eureka/
+      defaultZone: ${IP_PROTOCOL_SERVE}:8761/eureka/

@@ -10,7 +10,9 @@ import com.microservice.generation.controller.sto.TarifaOperadorDto;
 /**
  * Cliente Feign para interactuar con el microservicio de operadores.
  */
-@FeignClient(name = "msvc-operadores", url = "https://10.10.100.98:9091")
+
+@FeignClient(name = "msvc-operadores", url = "${api.IP_PROTOCOL}:9091")
+
 public interface OperadorClient {
 
     /**

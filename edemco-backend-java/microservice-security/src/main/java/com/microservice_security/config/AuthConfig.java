@@ -3,6 +3,7 @@ package com.microservice_security.config;
 import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +34,9 @@ import jakarta.servlet.http.HttpSession;
 public class AuthConfig {
     @Autowired
     private  JwtService jwtService;
+
+    @Value("${api.URL_FRONT}")
+    public String url_front;
 
     /**
      * Configura la cadena de filtros de seguridad.
@@ -71,10 +75,8 @@ public class AuthConfig {
             .maxAge(Duration.ofHours(9))
             .sameSite("Lax")
             .build();
-
             response.addHeader(HttpHeaders.SET_COOKIE,cookie.toString());
-
-            response.sendRedirect("https://10.10.100.98:5173/principal");
+            response.sendRedirect(url_front);
         };
     }
     /**

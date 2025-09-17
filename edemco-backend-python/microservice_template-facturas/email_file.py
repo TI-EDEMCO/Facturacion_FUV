@@ -7,6 +7,7 @@ from email.mime.image import MIMEImage
 from datetime import datetime,timedelta
 import requests
 from info_email import DTO_email
+from jinja2 import FileSystemLoader,Environment
 import os
 import pyodbc
 import base64
@@ -14,6 +15,9 @@ import mimetypes
 from dotenv import load_dotenv
 env_file="C:/edemco/edemco-backend-python/.env"
 load_dotenv(env_file)
+
+templateLoader = FileSystemLoader(searchpath="C:\\edemco--pruebas\\edemco-backend-python\\microservice_template-facturas\\templates")
+templateENV = Environment(loader=templateLoader)
 
 class EmailIntegracion:
 
@@ -36,7 +40,7 @@ class EmailIntegracion:
             conn = pyodbc.connect(conn_str)
             cursor = conn.cursor()
             cursor.execute("""
-                SELECT e.email 
+                SELECT e.email
                 FROM email e
                 JOIN planta p ON e.id_planta = p.id_planta
                 WHERE e.id_planta = ?
@@ -104,7 +108,6 @@ class EmailIntegracion:
 
     @staticmethod
     def email_prueba(cod_planta,headers):
-        print("ESTO ES UNA PRUEBA DE CORREO")
         conn = None
         cursor = None
 
@@ -114,7 +117,7 @@ class EmailIntegracion:
             conn = pyodbc.connect(conn_str)
             cursor = conn.cursor()
             cursor.execute("""
-                SELECT e.email 
+                SELECT e.email
                 FROM email e
                 JOIN planta p ON e.id_planta = p.id_planta
                 WHERE e.id_planta = ?
@@ -123,7 +126,6 @@ class EmailIntegracion:
 
             # Lista de correos electrónicos
             email_list = [row.email for row in result]
-            print(email_list,list(email_list))
 
         except pyodbc.Error as e:
             print(f"Error para cod planta: {cod_planta}: {e}")
@@ -139,12 +141,10 @@ class EmailIntegracion:
         info_email = DTO_email()
         asunto, route = info_email.execute(cod_planta)
         url_img = r'C:\\Users\\usuario\Desktop\\Encabezado_correo.png'
-        print(asunto,"<--@@@")
 
         image=[]
         attachments=[]
         with open(url_img,'rb') as png:
-            print(os.path.basename(url_img))
             img64=base64.b64encode(png.read()).decode("utf-8")
             image.append(
                 {
@@ -202,8 +202,8 @@ class EmailIntegracion:
             cursor = conn.cursor()
             for planta in Plantas:
                 cursor.execute(f"""
-                    select g.valor_total,p.nombre_planta 
-                    from generacion g inner join planta 
+                    select g.valor_total,p.nombre_planta
+                    from generacion g inner join planta
                     p on g.id_planta=p.id_planta where anio={año_mes_anterior} and
                     mes={mes_anterior_numero} and p.nombre_planta='{planta}'
                 """)
@@ -220,75 +220,15 @@ class EmailIntegracion:
                 conn.close()
         email_list=os.getenv("EmailsContabilidad").split(",")
         toRecipients=[{"emailAddress":{"address":email}} for email in email_list]
-        style="""<style> 
-        .imagen{
-      width:200px;
-        display: block;
-  margin-left: auto;
-  margin-right: auto;  
-    }
-  .button{
-    display: inline-block; 
-    padding: 10px 30px; 
-    font-size: 16px; 
-    color: #fff; 
-    background-color:#0cb645; 
-    text-decoration: none; 
-    border-radius: 5px;
-  }
-    .container {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-    }
-    .header {
-      background-color: #0cb645;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      font-size: 20px;
-      border-radius: 8px 8px 0 0;
-    }
-    .content {
-      padding: 15px;
-      text-align: left;
-    }
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #666;
-      margin-top: 15px;
-    }
-    .text {
-      text-align:center;
-    }
-  </style>"""
-        content_email=f"""
-  <div class="container">
-    <img class="imagen" alt="Logo Edemco" src="https://www.edemco.co/uploads/files/logo-edemco.png" data-imagetype="External">
-    <div class="header">Notificación Facturas Fotovoltaica</div>
-    <div class="content">
-      <p class="text"><strong>Cordial Saludo</strong></p>
-      <p class="text">Se notifica que se acaba de registrar facturas de fotovoltaica para las siguientes plantas y su valor:</p>
-      <p class="text">{str(infoPlantas).replace("[","").replace("],","").replace("'","").replace("]","")}</p>
-    </div>
-    <div class="footer">
-          Seguimos mejorando con buena energía. <br>
-          ¡Que tengas un excelente día!<br> 
-      © 2025 Edemco. Todos los derechos reservados.
-    </div>
-  </div>"""
+        Info_plantas=str(infoPlantas).replace("[","").replace("],","").replace("'","").replace("]","")
+        html_body=templateENV.get_template("Contabilidad.html").render(Info_plantas=Info_plantas)
         try:
             message = {
             "message": {
                 "subject": "Generacion de facturas de plantas PRUEBAS",
                 "body": {
                     "contentType": "HTML",
-                    "content": style+content_email
+                    "content": html_body
                 },
                 "toRecipients": toRecipients
             }
@@ -303,7 +243,7 @@ class EmailIntegracion:
         except pyodbc.Error as e:
             print(f"Error Al enviar correo de contabilidad: {e}")
             return
-            
+
     @staticmethod
     def email_error_correos():
         mail_email=os.getenv("USER_MAIL")
@@ -317,3 +257,41 @@ class EmailIntegracion:
             server.starttls()
             server.login(mail_email,mail_password)
             server.send_message(mail)
+
+    @staticmethod
+    def email_factura_aprobada(Numero_factura):
+        Fes_file=f"{Numero_factura}.xml"
+        Fes_pdf=f"{Numero_factura}.pdf"
+        emails_to=os.getenv("CORREOS_FACTURAS").split(",")
+        try:
+            conn_str = os.getenv("SQL_URL_PYODBC")
+            conn = pyodbc.connect(conn_str)
+            cursor = conn.cursor()
+            cursor.execute("""
+                select p.nombre_planta from factura f
+            inner join planta p on f.id_planta=p.id_planta where f.numero_factura= ?
+            """, (Numero_factura,))
+            Nombre_Planta = cursor.fetchone()[0]
+        except Exception as e :
+            print("No se logro conectar a la BD",e)
+        html_body=templateENV.get_template("Factura_aprobada.html").render(Nombre_planta=Nombre_Planta)
+        mail_email=os.getenv("USER_MAIL")
+        mail_password=os.getenv("PASSWORD_MAIL")
+        msg = EmailMessage()
+        msg['From'] = mail_email
+        msg['To'] = emails_to
+        msg['Subject'] = "Factura prueba XML"
+        msg.add_alternative(html_body,subtype='html')
+        #Add XML
+        with open(f"Z:\\{Fes_file}", "rb") as fes:
+            msg.add_attachment(fes.read(),maintype="application",subtype="xml",filename=Fes_file)
+        with open(f"Y:\\{Fes_pdf}","rb") as pdf:
+            msg.add_attachment(pdf.read(),maintype="application",subtype="pdf",filename=Fes_pdf)
+        smtp_server = 'smtp.office365.com'
+        smtp_port = 587
+        smtp_username = mail_email
+        smtp_password = mail_password
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_username, smtp_password)
+            server.send_message(msg)

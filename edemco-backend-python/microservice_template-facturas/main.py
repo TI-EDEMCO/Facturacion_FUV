@@ -152,7 +152,6 @@ def api():
 @app.route("/api/generar_template/prueba", methods=["POST"])
 def apiPrueba():
     try:
-        print("HOLA- ESTO ES UNA PRUEBA DE EMAIL CON GRAPH(AZURE PORTAL PERMISSION)")
         auth_header = request.headers.get("Authorization")
         if not auth_header:
             response = {"status-code": 400,
@@ -319,6 +318,20 @@ def Email_contabilidad():
         return "response", 200
     except Exception as e:
         response = {"status-code": 500, "error": str(e)}
+        return jsonify(response), 500
+
+
+@cross_origin
+@app.route("/api/notificacion_factura",methods=["POST"])
+def Factura_Aprobada():
+    try:
+        Numero_Fes=request.get_json()["invoices_fes"]
+        microservice_email.email_factura_aprobada(Numero_Fes)
+        response = {"status-code": 200, "si":"efectivamente"}
+        return jsonify(response), 200
+    except Exception as e:
+        print(e,"fallo al enviar correo de factura")
+        response = {"status-code": 500, "error":"F*ck"}
         return jsonify(response), 500
 
 if __name__ == "__main__":
