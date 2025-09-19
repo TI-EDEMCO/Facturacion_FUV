@@ -108,6 +108,7 @@ const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
               <ModifyGeneracion
                 idGeneracion={InfoGeneracion?.id_generacion}
                 valorgeneracion={InfoGeneracion?.generacion_actual}
+                close={()=> SetShowModal(false)}
               />
             </Modal>
           ) : null}

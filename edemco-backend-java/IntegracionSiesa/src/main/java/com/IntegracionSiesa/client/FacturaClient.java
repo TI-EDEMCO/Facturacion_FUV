@@ -10,7 +10,9 @@ import com.IntegracionSiesa.dto.FacturaRequestDTO;
 /**
  * Cliente Feign para interactuar con el microservicio de facturación.
  */
+
 @FeignClient(name = "msvc-factura", url = "${api.IP_PROTOCOL}:8060")
+
 public interface FacturaClient {
 
     /**

@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Cliente Feign para interactuar con el microservicio de generación.
  */
+
 @FeignClient(name = "msvc-generation", url = "${api.IP_PROTOCOL}:9092")
+
 public interface GeneracionClient {
 
     /**
