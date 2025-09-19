@@ -2,4 +2,4 @@ spring:
   application:
     name: msvc-operadores
   config:
-    import: optional:configserver:https://${IP_SERVER}:8888
+    import: optional:configserver:${IP_PROTOCOL_SERVE}:8888
