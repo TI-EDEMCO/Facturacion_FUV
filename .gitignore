@@ -1,5 +1,6 @@
 #ignorar todos los .yml de javaScript y logs
 *.log
+*.jar
 *.jar.log
 HELP.md
 target/
