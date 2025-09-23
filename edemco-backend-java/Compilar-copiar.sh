@@ -1,6 +1,6 @@
 
 
-pathCompilados="C:\edemco--pruebas\compilados-edemco"
+pathCompilados="C:\edemco\compilados-edemco"
 
 for dir in */ ; do
 
