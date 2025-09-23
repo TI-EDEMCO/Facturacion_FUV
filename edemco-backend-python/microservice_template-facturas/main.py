@@ -317,6 +317,7 @@ def Email_contabilidad():
         microservice_email.email_contabilidad(data["Plantas"],headers)
         return "response", 200
     except Exception as e:
+        print(f"ERROR:{e}")
         response = {"status-code": 500, "error": str(e)}
         return jsonify(response), 500
 

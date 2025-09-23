@@ -118,7 +118,6 @@ const IniciarFactura = () => {
     setTimeout(async () => {
       const result = await GetGrowattData();
       if (result.success) {
-        console.log(JSON.parse(result.data));
         await generateCalculations(JSON.parse(result.data));
         SetOpenModal(true);
       } else {

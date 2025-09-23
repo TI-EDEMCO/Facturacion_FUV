@@ -204,7 +204,7 @@ class EmailIntegracion:
                 cursor.execute(f"""
                 with fact_esp as (select top 1 * from facturacion_especial where mes={mes_anterior_numero} and anio={año_mes_anterior} 
                 order by id_facturacion_especial desc)
-                select g.valor_total + CASE when fe.valor_exportacion>0 then fe.valor_exportacion else 0 END ,
+                select g.valor_total + CASE when fe.valor_exportacion>0 then fe.valor_exportacion else 0 END AS valor_total,
                 p.nombre_planta
                 from generacion g 
                 inner join planta p on g.id_planta=p.id_planta
