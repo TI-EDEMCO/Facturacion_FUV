@@ -40,6 +40,7 @@ import Button from "../../atoms/Button/Button";
 
 const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
   const [cargando, SetCargando] = useState(true);
+  const [loading, setLoading] = useState(false)
   const [rows, SetRows] = useState();
   const [InfoGeneracion, setInfoGeneracion] = useState();
   const [showModal, SetShowModal] = useState(false);
@@ -99,7 +100,7 @@ const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
             rowsPerPage={20}
             showPagination={false}
           />
-          <Button onClick={SendToSiesa} text={"Generar Factura/s"} />
+          <Button onClick={()=>{setLoading(true),SendToSiesa()}} text={"Generar Factura/s"} isLoading={loading} disabled={loading} />
           {showModal ? (
             <Modal
               onClose={() => SetShowModal(false)}
@@ -108,7 +109,7 @@ const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
               <ModifyGeneracion
                 idGeneracion={InfoGeneracion?.id_generacion}
                 valorgeneracion={InfoGeneracion?.generacion_actual}
-                close={()=> SetShowModal(false)}
+                close={() => SetShowModal(false)}
               />
             </Modal>
           ) : null}
