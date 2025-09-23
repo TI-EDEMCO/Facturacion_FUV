@@ -202,10 +202,16 @@ class EmailIntegracion:
             cursor = conn.cursor()
             for planta in Plantas:
                 cursor.execute(f"""
-                    select g.valor_total,p.nombre_planta
-                    from generacion g inner join planta
-                    p on g.id_planta=p.id_planta where anio={año_mes_anterior} and
-                    mes={mes_anterior_numero} and p.nombre_planta='{planta}'
+                with fact_esp as (select top 1 * from facturacion_especial where mes={mes_anterior_numero} and anio={año_mes_anterior} 
+                order by id_facturacion_especial desc)
+                select g.valor_total + CASE when fe.valor_exportacion>0 then fe.valor_exportacion else 0 END AS valor_total,
+                p.nombre_planta
+                from generacion g 
+                inner join planta p on g.id_planta=p.id_planta
+                left join fact_esp fe on p.id_planta=fe.id_planta
+                where g.anio={año_mes_anterior} and
+                g.mes={mes_anterior_numero} and 
+                p.nombre_planta='{planta}'
                 """)
                 result = cursor.fetchall()
                 infoPlantas.append([str(row.nombre_planta)+' : '+f"${float(row.valor_total):,.2f}".replace(',', 'x').replace('.', ',').replace('x', '.')+'<br>' for row in result])

@@ -33,7 +33,6 @@ const GetGrowattDataDowload = async () => {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL
   const token = Cookies.get('accessToken')
   try {
-    console.log("inicia")
        await fetch(`${BASE_URL}8094/api/growatt`, {
         headers: {
           'Content-Type': 'application/json',
