@@ -1,7 +1,7 @@
 #ignorar todos los .yml de javaScript y logs
 *.log
-*.jar
 *.jar.log
+*.jar
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
