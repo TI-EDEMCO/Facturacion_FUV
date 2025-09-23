@@ -121,7 +121,6 @@ const IniciarFactura = () => {
         console.log(JSON.parse(result.data));
         await generateCalculations(JSON.parse(result.data));
         SetOpenModal(true);
-        // await siesaIntegration()
       } else {
         console.error("Failed to get data from growatt:", result.error);
         setIsLoading(false);
@@ -135,7 +134,6 @@ const IniciarFactura = () => {
     if (result.success) {
       await generateCalculations(result.data);
       SetOpenModal(true);
-      // await siesaIntegration()
     } else {
       console.error("Failed to upload file:", result.error);
       toast.error(

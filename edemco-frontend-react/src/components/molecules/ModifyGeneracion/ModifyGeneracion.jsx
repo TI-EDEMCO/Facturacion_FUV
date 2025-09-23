@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import Input from "../../atoms/Input/Input";
 import PostModifyGenerationData from "../../../services/PostModifyGenerationData.service";
 import "./ModifyGeneracion.css";
+import Button from "../../atoms/Button/Button";
 
 /*
  * ModifyGeneracion Component
@@ -20,7 +21,7 @@ import "./ModifyGeneracion.css";
  * - El componente utiliza servicios `PostModifyGenerationData` para interactuar con datos remotos.
  * - Mensajes de error y éxito son gestionados con la librería `react-toastify`.
  */
-const ModifyGeneracion = ({ idGeneracion, valorgeneracion,close }) => {
+const ModifyGeneracion = ({ idGeneracion, valorgeneracion, close }) => {
   const initialFormValues = {
     generacionActual: parseFloat(valorgeneracion.replace(",", ".")),
     generacionActualHasError: false,
@@ -28,6 +29,7 @@ const ModifyGeneracion = ({ idGeneracion, valorgeneracion,close }) => {
   };
   const [formValues, setFormValues] = useState(initialFormValues);
   const [isOpen, setIsOpen] = useState(true);
+  const [loading, setLoading] = useState(false)
   const dropdownChipsRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -57,6 +59,7 @@ const ModifyGeneracion = ({ idGeneracion, valorgeneracion,close }) => {
   // ? Lógica para cerrar el dropdown cuando se hace click por fuera */
 
   const addRemitter = async (e) => {
+    setLoading(true)
     e.preventDefault();
     if (!formValues.generacionActual) {
       setFormValues({
@@ -71,7 +74,6 @@ const ModifyGeneracion = ({ idGeneracion, valorgeneracion,close }) => {
       valorGeneracion: parseFloat(formValues.generacionActual),
       idGeneracion,
     };
-    console.log(NewGeneracion);
 
     await PostModifyGenerationData(NewGeneracion)
       .then((result) => {
@@ -98,22 +100,25 @@ const ModifyGeneracion = ({ idGeneracion, valorgeneracion,close }) => {
   };
 
   return (
-    <article className="dropdown">
-      <form onSubmit={addRemitter}>
-        <Input
-          className={`${formValues.generacionActualHasError && "input--error"}`}
-          errorMessage={formValues.errorMessage}
-          hasError={formValues.generacionActualHasError}
-          id="generacionActual"
-          name="generacionActual"
-          onChange={handleChange}
-          allowDecimals
-          placeholder="Modifica Generacion Actual"
-          value={formValues.generacionActual}
-          type="number"
-        />
-      </form>
-    </article>
+    <>
+      <article className="dropdown">
+        <form onSubmit={addRemitter}>
+          <Input
+            className={`${formValues.generacionActualHasError && "input--error"}`}
+            errorMessage={formValues.errorMessage}
+            hasError={formValues.generacionActualHasError}
+            id="generacionActual"
+            name="generacionActual"
+            onChange={handleChange}
+            allowDecimals
+            placeholder="Modifica Generacion Actual"
+            value={formValues.generacionActual}
+            type="number"
+          />
+        </form>
+      </article>
+      <Button text={"Actualizar"} onClick={addRemitter} isLoading={loading} disabled={loading} />
+    </>
   );
 };
 
