@@ -78,7 +78,8 @@ class XMLHandler(FileSystemEventHandler):
 
                 if cufe and fecha_dian and fecha_pago and concepto_facturado:
                     self.update_database(invoice_number, cufe, fecha_dian, fecha_pago, concepto_facturado)
-                    requests.post(f"{IP_SERVER}:8094/api/notificacion_factura", json={"invoices_fes":f"{invoice_number}"},verify="C:\\Users\\usuario\\Desktop\\Certificados Microservicios\\rootCA.pem")
+                    response=requests.post(f"{IP_SERVER}:8091/api/notificacion_factura", json={"invoices_fes":f"{invoice_number}"},verify="C:\\Users\\usuario\\Desktop\\Certificados Microservicios\\rootCA.pem")
+                    print(response,response.text)
                 else:
                     logger.info(f"Campos requeridos no encontrados en el archivo: {file_path}")
             else:
