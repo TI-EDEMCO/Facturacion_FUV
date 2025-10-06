@@ -139,7 +139,8 @@ PASSWORD_MAIL="PasswordMailGeneral"
 
 # Ejecucion de microservicios
 ## Java 
-La carpeta de compilados-edemco tiene un archivo .sh que ejecuta los servicios compilados de java, se debe modificar este archivo para modificar la ip de donde se este ejecutando, este archivo mata cualquier tarea que este ocupando los puertos designados.
+Para la ejecucion de microservicios de java, se debe tener los requisitos previos y ejecutar el archivo `Compilar-copiar.sh` ubicado en la carpeta `edemco-backend-java` el cual compila los microservicios y copia el archivo .jar dentro de una ruta de la carpeta `compilados-edemco`, esta ruta se puede modificar en el archivo dependiendo de donde se instalo el repositorio.
+Una vez complilados, dirigirse a la carpeta `compilados-edemco` y ejecutar el archivo `ejecutable-java.sh` que ejecuta los servicios compilados de java, se debe modificar este archivo para modificar la ip de donde se este ejecutando, este archivo mata cualquier tarea que este ocupando los puertos designados. Recuerde que el archivo con las variables de entorno de JAVA debe estar tambien dentro de esta carpeta.
 
 ## Python
 el archivo main.py que se encuentra fuera de los ubicaciones de los microservicios es el encargado de ejecutar los microservicios, se debe modificar en para utilizar la ubicacion del entorno virtual a utilizar (se recomienda ubicarlo en la raiz):
