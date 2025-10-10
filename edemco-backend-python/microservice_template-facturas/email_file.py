@@ -231,7 +231,7 @@ class EmailIntegracion:
         try:
             message = {
             "message": {
-                "subject": "Generacion de facturas de plantas PRUEBAS",
+                "subject": "Generacion de facturas de plantas",
                 "body": {
                     "contentType": "HTML",
                     "content": html_body
