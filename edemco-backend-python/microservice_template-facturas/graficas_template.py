@@ -57,7 +57,7 @@ class GraficaExcel():
                     WHEN sub.mes = 12 THEN 'Dic'
                 END + '-' + RIGHT(CAST(sub.anio AS VARCHAR(4)), 2) AS fecha,
                 sub.generacion_actual AS Generacion,
-                e.valor_exportacion AS [Exportación],
+                e.cantidad_kwh AS [Exportación],
                 sub.valor_unidad AS [VALOR kWh],
                 sub.tarifa_operador AS [Tarifa OR],
                 sub.ahorro_actual AS [Ahorro actual]

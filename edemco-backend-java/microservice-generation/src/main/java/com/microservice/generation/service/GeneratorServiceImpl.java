@@ -24,6 +24,8 @@ import com.microservice.generation.dto.ValorUnidadDTO;
 import com.microservice.generation.entities.Generator;
 import com.microservice.generation.persistence.GeneratorRepository;
 
+import feign.FeignException;
+
 @Service
 public class GeneratorServiceImpl implements IGeneratorService {
 
@@ -113,7 +115,20 @@ public class GeneratorServiceImpl implements IGeneratorService {
                     throw new Exception(e.getMessage());
                 }
 
-                Double ahorroActual = diferencia * generacionActual;
+                Double ahorroActual=0.0;
+                if(Objects.equals(checkFacturacionEspecial(idPlanta), idPlanta) && checkFacturacionEspecial(idPlanta) != null){
+                    try{
+                        Float cantidadKwh = findCantidadKWhByIdPlantaAndDate(idPlanta, anio, mesActual);
+                        ahorroActual = (generacionActual - cantidadKwh) * diferencia;
+                    } catch (FeignException.NotFound e) {
+                        System.out.println("Valor de la exportacion no encontrado para la planta 505");
+                    }catch (Exception e){
+                        System.err.println("Error al calcular" + e.getMessage());
+                    }
+
+                } else {
+                ahorroActual = diferencia * generacionActual;
+                }
 
                 Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
                 if (ahorroAcumulado != null) {
@@ -190,7 +205,20 @@ public class GeneratorServiceImpl implements IGeneratorService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        Double ahorroActual = diferencia * valorGeneracion;
+        Double ahorroActual=0.0;
+        if(Objects.equals(checkFacturacionEspecial(idPlanta), idPlanta) && checkFacturacionEspecial(idPlanta) != null){
+            try{
+                Float cantidadKwh = findCantidadKWhByIdPlantaAndDate(idPlanta, anio, mesActual);
+                ahorroActual = (valorGeneracion - cantidadKwh) * diferencia;
+            } catch (FeignException.NotFound e) {
+                System.out.println("Valor de la exportacion no encontrado para la planta 505");
+            }catch (Exception e){
+                System.err.println("Error al calcular" + e.getMessage());
+            }
+
+        } else {
+        ahorroActual = diferencia * valorGeneracion;
+        }
 
         Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
         if (ahorroAcumulado != null) {
