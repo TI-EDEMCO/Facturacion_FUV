@@ -444,6 +444,8 @@ public class SiesaService {
 
                 System.out.println("Enviando datos a postConectoresImportar...");
                 ResponseEntity<String> responseImportar = postConectoresImportar(ventasServicios);
+                System.out.println("Mensje POSTERIOR AL ENVIO");
+                System.out.println(responseImportar);
                 System.out.println("Respuesta de postConectoresImportar: " + responseImportar.getBody());
                 ResponseEntity<List<FacturaFADto>> responseEntityFacturas = getNumberFactura();
                 List<FacturaFADto> facturasFADto = responseEntityFacturas.getBody();
@@ -486,6 +488,7 @@ public class SiesaService {
 
             return ResponseEntity.ok("Facturas enviadas correctamente");
         } catch (Exception e) {
+            System.out.println(e.getMessage() +"  "+e);
             throw new Exception("Error en envioFacturas: " + e.getMessage(), e);
         }
     }
