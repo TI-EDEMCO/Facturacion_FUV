@@ -444,8 +444,6 @@ public class SiesaService {
 
                 System.out.println("Enviando datos a postConectoresImportar...");
                 ResponseEntity<String> responseImportar = postConectoresImportar(ventasServicios);
-                System.out.println("Mensje POSTERIOR AL ENVIO");
-                System.out.println(responseImportar);
                 System.out.println("Respuesta de postConectoresImportar: " + responseImportar.getBody());
                 ResponseEntity<List<FacturaFADto>> responseEntityFacturas = getNumberFactura();
                 List<FacturaFADto> facturasFADto = responseEntityFacturas.getBody();
