@@ -13,10 +13,10 @@ import pyodbc
 import base64
 import mimetypes
 from dotenv import load_dotenv
-env_file="C:/edemco--pruebas/edemco-backend-python/.env"
+env_file="C:/edemco/edemco-backend-python/.env"
 load_dotenv(env_file)
 
-templateLoader = FileSystemLoader(searchpath="C:\\edemco--pruebas\\edemco-backend-python\\microservice_template-facturas\\templates")
+templateLoader = FileSystemLoader(searchpath="C:\\edemco\\edemco-backend-python\\microservice_template-facturas\\templates")
 templateENV = Environment(loader=templateLoader)
 
 class EmailIntegracion:
@@ -231,7 +231,7 @@ class EmailIntegracion:
         try:
             message = {
             "message": {
-                "subject": "Generacion de facturas de plantas PRUEBAS",
+                "subject": "Generacion de facturas de plantas",
                 "body": {
                     "contentType": "HTML",
                     "content": html_body
@@ -256,7 +256,7 @@ class EmailIntegracion:
         mail_password=os.getenv("PASSWORD_MAIL")
         mail=EmailMessage()
         mail["Subject"]="Error en Correos aplicativo Fotovoltica"
-        mail["From"]="matic@edemco.co"
+        mail["From"]=mail_email
         mail["To"]="jose.romero@edemco.co"
         mail.set_content("Ocurrio un error en el envio de facturas (microservicio de python en el puerto 8091{`microservice_template-facturas`}) por correo, por favor ingrese a verificar el error para el envio de facturas")
         with smtplib.SMTP("smtp.office365.com",587) as server:
@@ -266,7 +266,6 @@ class EmailIntegracion:
 
     @staticmethod
     def email_factura_aprobada(Numero_factura):
-        Fes_file=f"{Numero_factura}.xml"
         Fes_pdf=f"{Numero_factura}.pdf"
         emails_to=os.getenv("CORREOS_FACTURAS").split(",")
         try:
@@ -286,11 +285,9 @@ class EmailIntegracion:
         msg = EmailMessage()
         msg['From'] = mail_email
         msg['To'] = emails_to
-        msg['Subject'] = "Factura prueba XML"
+        msg['Subject'] = "Factura planta FOTOVOLTAICA"
         msg.add_alternative(html_body,subtype='html')
-        #Add XML
-        with open(f"Z:\\{Fes_file}", "rb") as fes:
-            msg.add_attachment(fes.read(),maintype="application",subtype="xml",filename=Fes_file)
+        #Add PDF
         with open(f"Y:\\{Fes_pdf}","rb") as pdf:
             msg.add_attachment(pdf.read(),maintype="application",subtype="pdf",filename=Fes_pdf)
         smtp_server = 'smtp.office365.com'

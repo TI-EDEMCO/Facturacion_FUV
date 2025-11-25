@@ -10,7 +10,7 @@ import time
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
-env_file="C:/edemco--pruebas/edemco-backend-python/.env"
+env_file="C:/edemco/edemco-backend-python/.env"
 load_dotenv(env_file)
 IP_SERVER=os.getenv("IP_PROTOCOL_SERVE")
 # Configurar el registro con codificación UTF-8 y modo sobrescritura
@@ -78,7 +78,8 @@ class XMLHandler(FileSystemEventHandler):
 
                 if cufe and fecha_dian and fecha_pago and concepto_facturado:
                     self.update_database(invoice_number, cufe, fecha_dian, fecha_pago, concepto_facturado)
-                    requests.post(f"{IP_SERVER}:8094/api/notificacion_factura", json={"invoices_fes":f"{invoice_number}"},verify="C:\\Users\\usuario\\Desktop\\Certificados Microservicios\\rootCA.pem")
+                    response=requests.post(f"{IP_SERVER}:8091/api/notificacion_factura", json={"invoices_fes":f"{invoice_number}"},verify="C:\\Users\\usuario\\Desktop\\Certificados Microservicios\\rootCA.pem")
+                    print(response,response.text)
                 else:
                     logger.info(f"Campos requeridos no encontrados en el archivo: {file_path}")
             else:

@@ -70,49 +70,49 @@ const fetchWithToken = async (url, options = {}, isPython = false) => {
     }
     console.log(data)
 
-    // if (data.statusCode === UNAUTHORIZED_STATUS_CODE) {
-    //   // console.log("unautorizate")
-    //   // Cookies.remove('accessToken')
-    //   // Cookies.remove('refreshToken')
+    if (data.statusCode === UNAUTHORIZED_STATUS_CODE) {
+      console.log("unautorizate")
+      Cookies.remove('accessToken')
+      Cookies.remove('refreshToken')
 
-    //   // window.location.href = '/'
-    //   // return { success: false, error: data.message }
-    //   // const refreshResult = await PostNewAccessToken()
+      window.location.href = '/'
+      // return { success: false, error: data.message }
+      // const refreshResult = await PostNewAccessToken()
 
-    //   // if (
-    //   //   refreshResult.success &&
-    //   //   refreshResult.data.statusCode !== FORBIDDEN_STATUS_CODE
-    //   // ) {
-    //   //   const newAccessToken = refreshResult.data.accessToken
+      // if (
+      //   refreshResult.success &&
+      //   refreshResult.data.statusCode !== FORBIDDEN_STATUS_CODE
+      // ) {
+      //   const newAccessToken = refreshResult.data.accessToken
 
-    //   //   if (newAccessToken) Cookies.set('accessToken', newAccessToken)
+      //   if (newAccessToken) Cookies.set('accessToken', newAccessToken)
 
-    //   //   const retryResponse = await fetch(`${BASE_URL}${JAVA_PORT}${url}`, {
-    //   //     ...options,
-    //   //     headers: {
-    //   //       ...options.headers,
-    //   //       'Content-Type': 'application/json',
-    //   //       Authorization: `Bearer ${newAccessToken}`
-    //   //     }
-    //   //   })
+      //   const retryResponse = await fetch(`${BASE_URL}${JAVA_PORT}${url}`, {
+      //     ...options,
+      //     headers: {
+      //       ...options.headers,
+      //       'Content-Type': 'application/json',
+      //       Authorization: `Bearer ${newAccessToken}`
+      //     }
+      //   })
 
-    //   //   if (!retryResponse.ok) {
-    //   //     throw new Error('Network response was not ok')
-    //   //   }
+      //   if (!retryResponse.ok) {
+      //     throw new Error('Network response was not ok')
+      //   }
 
-    //   //   const data = await retryResponse.json()
+      //   const data = await retryResponse.json()
 
-    //   //   return { success: true, data }
-    //   // } else if (refreshResult.data.statusCode === FORBIDDEN_STATUS_CODE) {
-    //   //   Cookies.remove('accessToken')
-    //   //   Cookies.remove('refreshToken')
+      //   return { success: true, data }
+      // } else if (refreshResult.data.statusCode === FORBIDDEN_STATUS_CODE) {
+      //   Cookies.remove('accessToken')
+      //   Cookies.remove('refreshToken')
 
-    //   //   window.location.href = '/'
-    //   //   return { success: false, error: data.message }
-    //   // } else {
-    //   //   throw new Error('Could not refresh token')
-    //   // }
-    // }
+      //   window.location.href = '/'
+      //   return { success: false, error: data.message }
+      // } else {
+      //   throw new Error('Could not refresh token')
+      // }
+    }
 
     throw new Error('Network response was not ok')
   } catch (error) {
