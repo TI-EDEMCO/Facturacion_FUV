@@ -486,6 +486,7 @@ public class SiesaService {
 
             return ResponseEntity.ok("Facturas enviadas correctamente");
         } catch (Exception e) {
+            System.out.println(e.getMessage() +"  "+e);
             throw new Exception("Error en envioFacturas: " + e.getMessage(), e);
         }
     }

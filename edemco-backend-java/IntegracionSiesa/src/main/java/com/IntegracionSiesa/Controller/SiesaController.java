@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.IntegracionSiesa.Service.SiesaPruebasService;
+import com.IntegracionSiesa.Service.SiesaService;
 import com.IntegracionSiesa.dto.IniciarFacturacionDto;
 
 @RestController
@@ -22,8 +23,8 @@ import com.IntegracionSiesa.dto.IniciarFacturacionDto;
 @CrossOrigin(origins = "*", allowedHeaders = {"Authorization", "Content-Type"})
 public class SiesaController {
 
-    // @Autowired
-    // private SiesaService service;
+    @Autowired
+    private SiesaService service;
 
     @Autowired
     private SiesaPruebasService siesaPruebasService;
@@ -37,7 +38,7 @@ public class SiesaController {
      */
     @GetMapping("/llenar_datos")
     public ResponseEntity<?> llenarDatos(@RequestBody List<IniciarFacturacionDto> centroOperacionList, @RequestParam("date") LocalDate date){
-        return siesaPruebasService.llenarDatos2(centroOperacionList,date);
+        return service.llenarDatos2(centroOperacionList,date);
     }
 
     /**
@@ -50,7 +51,7 @@ public class SiesaController {
     @PostMapping("/enviar_factura_siesa")
     public ResponseEntity<?> enviarFacturaSiesa(@RequestBody List<IniciarFacturacionDto> iniciarFacturacionDtoList, @RequestParam("date") LocalDate date) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(siesaPruebasService.envioFacturas(iniciarFacturacionDtoList, date));
+            return ResponseEntity.status(HttpStatus.OK).body(service.envioFacturas(iniciarFacturacionDtoList, date));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
