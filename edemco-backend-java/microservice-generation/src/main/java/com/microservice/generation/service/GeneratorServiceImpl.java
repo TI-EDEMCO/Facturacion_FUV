@@ -248,8 +248,10 @@ public class GeneratorServiceImpl implements IGeneratorService {
 
     @Override
     public ResponseEntity<?> findAllGeneration(List<PlantasListDTO> plantasListDTOsList) throws Exception {
+        System.out.println("Información recibida:"+plantasListDTOsList+" "+plantasListDTOsList.size());
+        try {
         List<Map<String,Object>> informacion=new ArrayList<>();
-        for (int i=0;i<=plantasListDTOsList.size()-1;i++){
+        for (int i=0;i<plantasListDTOsList.size();i++){
             PlantasListDTO plantaActual=plantasListDTOsList.get(i);
             String id_planta=plantaActual.getId_planta();
             Integer mes=plantaActual.getMes();
@@ -258,20 +260,30 @@ public class GeneratorServiceImpl implements IGeneratorService {
             Map<String,Object> registro=new HashMap<>();
             DecimalFormat df=new DecimalFormat("#.##");
             String NombrePlanta=findNombrePlantaByIdPlanta(id_planta);
-            registro.put("NombrePlanta", NombrePlanta);
-            registro.put("id_generacion", generacionPlanta.get(0).getIdGeneracion());
-            registro.put("generacion_actual", df.format(generacionPlanta.get(0).getGeneracionActual()));
-            registro.put("generacion_acumulado", df.format(generacionPlanta.get(0).getGeneracionAcumulado()));
-            registro.put("valor_unidad", df.format(generacionPlanta.get(0).getValorUnidad()));
-            registro.put("valor_total", df.format(generacionPlanta.get(0).getValorTotal()));
-            registro.put("diferencia_tarifa", df.format(generacionPlanta.get(0).getDiferenciaTarifa()));
-            registro.put("ahorro_actual", df.format(generacionPlanta.get(0).getAhorroActual()));
-            registro.put("ahorro_acumulado", df.format(generacionPlanta.get(0).getAhorroAcumulado()));
-            registro.put("ahorro_codos_actual", df.format(generacionPlanta.get(0).getAhorroCodosActual()));
-            registro.put("ahorro_codos_acumulado", df.format(generacionPlanta.get(0).getAhorroCodosAcumulado()));
-            informacion.add(registro);
+            if(generacionPlanta.isEmpty()|| generacionPlanta==null){
+                registro.put("NombrePlanta", NombrePlanta);
+                registro.put("generacion_actual", "Falta paso de facturación especial, Información no encontrada");
+                informacion.add(registro);
+            }else{
+                registro.put("NombrePlanta", NombrePlanta);
+                registro.put("id_generacion", generacionPlanta.get(0).getIdGeneracion());
+                registro.put("generacion_actual", df.format(generacionPlanta.get(0).getGeneracionActual()));
+                registro.put("generacion_acumulado", df.format(generacionPlanta.get(0).getGeneracionAcumulado()));
+                registro.put("valor_unidad", df.format(generacionPlanta.get(0).getValorUnidad()));
+                registro.put("valor_total", df.format(generacionPlanta.get(0).getValorTotal()));
+                registro.put("diferencia_tarifa", df.format(generacionPlanta.get(0).getDiferenciaTarifa()));
+                registro.put("ahorro_actual", df.format(generacionPlanta.get(0).getAhorroActual()));
+                registro.put("ahorro_acumulado", df.format(generacionPlanta.get(0).getAhorroAcumulado()));
+                registro.put("ahorro_codos_actual", df.format(generacionPlanta.get(0).getAhorroCodosActual()));
+                registro.put("ahorro_codos_acumulado", df.format(generacionPlanta.get(0).getAhorroCodosAcumulado()));
+                informacion.add(registro);
+            }
         }
         return ResponseEntity.ok(informacion);
+        } catch (Exception e) {
+            System.out.println("error de generacion:"+e+e.getMessage());
+            return ResponseEntity.ok("Ocurrio un error inesperado:"+e);
+        }
 
     }
 
