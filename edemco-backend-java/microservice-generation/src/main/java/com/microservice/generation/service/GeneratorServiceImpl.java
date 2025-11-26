@@ -114,6 +114,8 @@ public class GeneratorServiceImpl implements IGeneratorService {
                 } catch (Exception e) {
                     throw new Exception(e.getMessage());
                 }
+                Long ValorTotalLong=Math.round(valorTotal);
+
 
                 Double ahorroActual=0.0;
                 if(Objects.equals(checkFacturacionEspecial(idPlanta), idPlanta) && checkFacturacionEspecial(idPlanta) != null){
@@ -129,28 +131,29 @@ public class GeneratorServiceImpl implements IGeneratorService {
                 } else {
                 ahorroActual = diferencia * generacionActual;
                 }
-
+                Long AhorroActualLong=Math.round(ahorroActual);
                 Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
                 if (ahorroAcumulado != null) {
-                    ahorroAcumulado = ahorroAcumulado + ahorroActual;
+                    ahorroAcumulado = ahorroAcumulado + AhorroActualLong.doubleValue();
                 } else {
-                    ahorroAcumulado = ahorroActual;
+                    ahorroAcumulado = AhorroActualLong.doubleValue();
                 }
 
                 Double ahorroCodosActual = generacionActual * 0.504;
+                Long AhorroCodosActualLong=Math.round(ahorroCodosActual);
                 Double ahorroCodosAcumulado = generatorRepository.findAhorroCodosAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
                 if (ahorroCodosAcumulado != null) {
-                    ahorroCodosAcumulado = ahorroCodosAcumulado + ahorroCodosActual;
+                    ahorroCodosAcumulado = ahorroCodosAcumulado + AhorroCodosActualLong.doubleValue();
                 } else {
-                    ahorroCodosAcumulado = ahorroCodosActual;
+                    ahorroCodosAcumulado = AhorroCodosActualLong.doubleValue();
                 }
                 if (!findGenerationsByDate(anio, mesActual, idPlanta).isEmpty()) {
                     continue;
                 } else{
                     Generator generator =new Generator();
-                    generator.setAhorroActual(ahorroActual);
+                    generator.setAhorroActual(AhorroActualLong.doubleValue());
                     generator.setAhorroAcumulado(ahorroAcumulado);
-                    generator.setAhorroCodosActual(ahorroCodosActual);
+                    generator.setAhorroCodosActual(AhorroCodosActualLong.doubleValue());
                     generator.setAhorroCodosAcumulado(ahorroCodosAcumulado);
                     generator.setAnio(anio);
                     generator.setDiferenciaTarifa(diferencia);
@@ -158,7 +161,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
                     generator.setGeneracionAcumulado(generacionAcumulada);
                     generator.setMes(mesActual);
                     generator.setValorUnidad(valorUnidad);
-                    generator.setValorTotal(valorTotal);
+                    generator.setValorTotal(ValorTotalLong.doubleValue());
                     generator.setIdTarifaOperador(tarifaOperadorDto.getIdTarifa());
                     generator.setIdPlanta(idPlanta);
                     generatorRepository.save(generator);
@@ -205,6 +208,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+        Long ValorTotalLong=Math.round(valorTotal);
         Double ahorroActual=0.0;
         if(Objects.equals(checkFacturacionEspecial(idPlanta), idPlanta) && checkFacturacionEspecial(idPlanta) != null){
             try{
@@ -219,37 +223,41 @@ public class GeneratorServiceImpl implements IGeneratorService {
         } else {
         ahorroActual = diferencia * valorGeneracion;
         }
+        Long AhorroActualLong=Math.round(ahorroActual);
 
         Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
         if (ahorroAcumulado != null) {
-            ahorroAcumulado = ahorroAcumulado + ahorroActual;
+            ahorroAcumulado = ahorroAcumulado + AhorroActualLong.doubleValue();
         } else {
-            ahorroAcumulado = ahorroActual;
+            ahorroAcumulado = AhorroActualLong.doubleValue();
         }
 
         Double ahorroCodosActual = valorGeneracion * 0.504;
+        Long AhorroCodosLong = Math.round(ahorroCodosActual);
         Double ahorroCodosAcumulado = generatorRepository.findAhorroCodosAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
         if (ahorroCodosAcumulado != null) {
-            ahorroCodosAcumulado = ahorroCodosAcumulado + ahorroCodosActual;
+            ahorroCodosAcumulado = ahorroCodosAcumulado + AhorroCodosLong.doubleValue();
         } else {
-            ahorroCodosAcumulado = ahorroCodosActual;
+            ahorroCodosAcumulado = AhorroCodosLong.doubleValue();
         }
-        registroGeneracion.setAhorroActual(ahorroActual);
+        System.out.println("VALOR TOTAL?:"+ValorTotalLong.doubleValue());
+        registroGeneracion.setAhorroActual(AhorroActualLong.doubleValue());
         registroGeneracion.setAhorroAcumulado(ahorroAcumulado);
-        registroGeneracion.setAhorroCodosActual(ahorroCodosActual);
+        registroGeneracion.setAhorroCodosActual(AhorroCodosLong.doubleValue());
         registroGeneracion.setAhorroCodosAcumulado(ahorroCodosAcumulado);
         registroGeneracion.setDiferenciaTarifa(diferencia);
         registroGeneracion.setGeneracionActual(valorGeneracion);
         registroGeneracion.setGeneracionAcumulado(generacionAcumulada);
-        registroGeneracion.setValorTotal(valorTotal);
+        registroGeneracion.setValorTotal(ValorTotalLong.doubleValue());
         generatorRepository.save(registroGeneracion);
         return ResponseEntity.ok("Buena url");
     }
 
     @Override
     public ResponseEntity<?> findAllGeneration(List<PlantasListDTO> plantasListDTOsList) throws Exception {
+        try {
         List<Map<String,Object>> informacion=new ArrayList<>();
-        for (int i=0;i<=plantasListDTOsList.size()-1;i++){
+        for (int i=0;i<plantasListDTOsList.size();i++){
             PlantasListDTO plantaActual=plantasListDTOsList.get(i);
             String id_planta=plantaActual.getId_planta();
             Integer mes=plantaActual.getMes();
@@ -258,20 +266,30 @@ public class GeneratorServiceImpl implements IGeneratorService {
             Map<String,Object> registro=new HashMap<>();
             DecimalFormat df=new DecimalFormat("#.##");
             String NombrePlanta=findNombrePlantaByIdPlanta(id_planta);
-            registro.put("NombrePlanta", NombrePlanta);
-            registro.put("id_generacion", generacionPlanta.get(0).getIdGeneracion());
-            registro.put("generacion_actual", df.format(generacionPlanta.get(0).getGeneracionActual()));
-            registro.put("generacion_acumulado", df.format(generacionPlanta.get(0).getGeneracionAcumulado()));
-            registro.put("valor_unidad", df.format(generacionPlanta.get(0).getValorUnidad()));
-            registro.put("valor_total", df.format(generacionPlanta.get(0).getValorTotal()));
-            registro.put("diferencia_tarifa", df.format(generacionPlanta.get(0).getDiferenciaTarifa()));
-            registro.put("ahorro_actual", df.format(generacionPlanta.get(0).getAhorroActual()));
-            registro.put("ahorro_acumulado", df.format(generacionPlanta.get(0).getAhorroAcumulado()));
-            registro.put("ahorro_codos_actual", df.format(generacionPlanta.get(0).getAhorroCodosActual()));
-            registro.put("ahorro_codos_acumulado", df.format(generacionPlanta.get(0).getAhorroCodosAcumulado()));
-            informacion.add(registro);
+            if(generacionPlanta.isEmpty()|| generacionPlanta==null){
+                registro.put("NombrePlanta", NombrePlanta);
+                registro.put("generacion_actual", "Falta paso de facturación especial, Información no encontrada");
+                informacion.add(registro);
+            }else{
+                registro.put("NombrePlanta", NombrePlanta);
+                registro.put("id_generacion", generacionPlanta.get(0).getIdGeneracion());
+                registro.put("generacion_actual", df.format(generacionPlanta.get(0).getGeneracionActual()));
+                registro.put("generacion_acumulado", df.format(generacionPlanta.get(0).getGeneracionAcumulado()));
+                registro.put("valor_unidad", df.format(generacionPlanta.get(0).getValorUnidad()));
+                registro.put("valor_total", df.format(generacionPlanta.get(0).getValorTotal()));
+                registro.put("diferencia_tarifa", df.format(generacionPlanta.get(0).getDiferenciaTarifa()));
+                registro.put("ahorro_actual", df.format(generacionPlanta.get(0).getAhorroActual()));
+                registro.put("ahorro_acumulado", df.format(generacionPlanta.get(0).getAhorroAcumulado()));
+                registro.put("ahorro_codos_actual", df.format(generacionPlanta.get(0).getAhorroCodosActual()));
+                registro.put("ahorro_codos_acumulado", df.format(generacionPlanta.get(0).getAhorroCodosAcumulado()));
+                informacion.add(registro);
+            }
         }
         return ResponseEntity.ok(informacion);
+        } catch (Exception e) {
+            System.out.println("error de generacion:"+e+e.getMessage());
+            return ResponseEntity.ok("Ocurrio un error inesperado:"+e);
+        }
 
     }
 
