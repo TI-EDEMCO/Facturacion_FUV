@@ -54,7 +54,37 @@ const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
     SetCargando(true);
     const BuscarGeneracionActual = async () => {
       const response = await PostGeneracionData(ListaPlantas);
-      SetRows(response?.data?.body);
+      //Se transfoma el formato de los datos para mejor lectura 
+      SetRows(response?.data?.body.map((data) => ({
+        ...data,
+        ahorro_actual
+          :
+          parseFloat(data?.ahorro_actual.replace(",", ".")).toLocaleString("es-CO"),
+        ahorro_acumulado
+          :
+          parseFloat(data?.ahorro_acumulado.replace(",", ".")).toLocaleString("es-CO"),
+        ahorro_codos_actual
+          :
+          parseFloat(data?.ahorro_codos_actual.replace(",", ".")).toLocaleString("es-CO"),
+        ahorro_codos_acumulado
+          :
+          parseFloat(data?.ahorro_codos_acumulado.replace(",", ".")).toLocaleString("es-CO"),
+        diferencia_tarifa
+          :
+          parseFloat(data?.diferencia_tarifa.replace(",", ".")).toLocaleString("es-CO"),
+        generacion_actual_formato
+          :
+          parseFloat(data?.generacion_actual.replace(",", ".")).toLocaleString("es-CO"),
+        generacion_acumulado
+          :
+          parseFloat(data?.generacion_acumulado.replace(",", ".")).toLocaleString("es-CO"),
+        valor_total
+          :
+          parseFloat(data?.valor_total.replace(",", ".")).toLocaleString("es-CO"),
+        valor_unidad
+          :
+          parseFloat(data?.valor_unidad.replace(",", ".")).toLocaleString("es-CO")
+      })));
       SetCargando(false);
     };
     BuscarGeneracionActual();
@@ -73,7 +103,7 @@ const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
   ];
   const columnsKeyMap = {
     Planta: "NombrePlanta",
-    "Generacion Actual": "generacion_actual",
+    "Generacion Actual": "generacion_actual_formato",
     "Generacion Acomulado": "generacion_acumulado",
     // "Valor Unidad": "valor_unidad",
     "Valor Total": "valor_total",
@@ -100,7 +130,7 @@ const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
             rowsPerPage={20}
             showPagination={false}
           />
-          <Button onClick={()=>{setLoading(true),SendToSiesa()}} text={"Generar Factura/s"} isLoading={loading} disabled={loading} />
+          <Button onClick={() => { setLoading(true), SendToSiesa() }} text={"Generar Factura/s"} isLoading={loading} disabled={loading} />
           {showModal ? (
             <Modal
               onClose={() => SetShowModal(false)}
