@@ -124,7 +124,7 @@ const IniciarFactura = () => {
         console.error("Failed to get data from growatt:", result.error);
         setIsLoading(false);
       }
-    }, 50000);
+    }, 70000);
   };
 
   const uploadFile = async (excelFile) => {
