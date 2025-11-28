@@ -3,13 +3,14 @@ from flask import Flask, jsonify # Flask para crear la aplicación web y jsonify
 from flask_cors import CORS, cross_origin
 from microservice_1 import Microservice_1  # Importamos la clase Microservice_1 de microservice_1.py
 from microservice_2 import Microservice_2  # Importamos la clase Microservice_2 de microservice_2.py
-
+from microservice_3 import Microservice_3  # Importamos la clase Microservice_3 de microservice_3.py
 # Creamos una instancia de la aplicación Flask
 app = Flask(__name__)
 CORS(app)
 # Creamos instancias de Microservice_1 y Microservice_2
 microservice_1 = Microservice_1()
 microservice_2 = Microservice_2()
+microservice_3=Microservice_3()
 
 # Definimos la ruta '/Growatt' y su controlador
 @cross_origin
@@ -27,6 +28,13 @@ def json():
     json_data = microservice_2.execute()
     # Devolvemos un mensaje al usuario
     return jsonify(json_data)
+
+
+@cross_origin
+@app.route('/api/growatt/check')
+def check():
+    exist=microservice_3.execute()
+    return jsonify({"FileExist":exist})
 
 
 # Comprobamos si este archivo es el punto de entrada principal para ejecutar la aplicación

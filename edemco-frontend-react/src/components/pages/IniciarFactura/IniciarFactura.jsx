@@ -14,6 +14,7 @@ import "./IniciarFactura.css";
 import GetAccessTokenGraph from "../../../services/GetAccessTokenGraph";
 import PostCorreoContabilidad from "../../../services/PostCorreoContabilidad.service";
 import ModificarGeneracion from "../ModificarGeneracion/ModificarGeneracion";
+import GetGrowattCheckFile from "../../../services/GetGrowattFileExist.service";
 
 /*
  * IniciarFactura Component
@@ -114,17 +115,44 @@ const IniciarFactura = () => {
   };
 
   const sendDataToGrowatt = async () => {
-    GetGrowattDataDowload()
-    setTimeout(async () => {
-      const result = await GetGrowattData();
-      if (result.success) {
-        await generateCalculations(JSON.parse(result.data));
-        SetOpenModal(true);
+    const File_Exist = await GetGrowattCheckFile();
+    if (File_Exist.success) {
+      if (!File_Exist.data.FileExist) {
+        GetGrowattDataDowload();
+        setTimeout(async () => {
+          const result = await GetGrowattData();
+          if (result.success) {
+            await generateCalculations(JSON.parse(result.data));
+            SetOpenModal(true);
+          } else {
+            console.error("Failed to get data from growatt:", result.error);
+            setIsLoading(false);
+            toast.error(
+              "Error al obtener información del archivo, intenta nuevamente"
+            );
+          }
+        }, 70000);
       } else {
-        console.error("Failed to get data from growatt:", result.error);
-        setIsLoading(false);
+        const result = await GetGrowattData();
+        if (result.success) {
+          await generateCalculations(JSON.parse(result.data));
+          SetOpenModal(true);
+        } else {
+          console.error("Failed to get data from growatt:", result.error);
+          setIsLoading(false);
+          toast.error(
+            "Error al obtener información del archivo, intenta nuevamente"
+          );
+        }
       }
-    }, 70000);
+    } else {
+      console.error(
+        "Failed to get data from growatt on File Exist:",
+        File_Exist.error
+      );
+      setIsLoading(false);
+      toast.error("Error al obtener el estado del archivo, intenta nuevamente");
+    }
   };
 
   const uploadFile = async (excelFile) => {
@@ -153,35 +181,35 @@ const IniciarFactura = () => {
     }
   };
   const siesaIntegration = async () => {
-    const id_toast= toast.loading("Enviado facturas",{
-      autoClose:false,
-      closeButton:false,
-      toastId :"customID"
-    })
-    const UpdateToast=(mensaje,type)=>{
-      toast.update(id_toast,{
-        render:`${mensaje}`,
+    const id_toast = toast.loading("Enviado facturas", {
+      autoClose: false,
+      closeButton: false,
+      toastId: "customID",
+    });
+    const UpdateToast = (mensaje, type) => {
+      toast.update(id_toast, {
+        render: `${mensaje}`,
         autoClose: 5000,
-        type:`${type}`,
-        closeButton:null,
-        isLoading:false
-      })
-    }
+        type: `${type}`,
+        closeButton: null,
+        isLoading: false,
+      });
+    };
     const todayDate = new Date().toISOString().split("T")[0];
     const result = await PostSiesaIntegration(customers, todayDate);
 
     if (result.success) {
-      UpdateToast("Generadas Correctamente","success")
+      UpdateToast("Generadas Correctamente", "success");
       var ListaPlantas = [];
       const token = await Gettoken();
       customers.map(({ idPlanta, nombrePlanta }) => {
         ListaPlantas.push(`"${nombrePlanta}"`);
       });
       PostCorreoContabilidad(ListaPlantas, token.authorization);
-      SetOpenModal(false)
+      SetOpenModal(false);
     } else {
-      UpdateToast("Error al generar facturas","error")
-      SetOpenModal(false)
+      UpdateToast("Error al generar facturas", "error");
+      SetOpenModal(false);
       console.error("Failed to integrate on siesa:", result.error);
     }
 
@@ -319,7 +347,7 @@ const IniciarFactura = () => {
           open={openModal}
           onClose={() => {
             SetOpenModal(false);
-            setIsLoading(false)
+            setIsLoading(false);
           }}
           SendToSiesa={siesaIntegration}
           listCustumers={customers}
