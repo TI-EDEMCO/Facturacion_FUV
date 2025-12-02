@@ -12,6 +12,7 @@ server:
     session:
       cookie:
         secure: false
+      timeout: 540m
 spring:
   application:
     name: msvc-security
