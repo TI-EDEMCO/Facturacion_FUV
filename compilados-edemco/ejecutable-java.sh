@@ -114,3 +114,9 @@ for service in "${services[@]}"; do
 done
 
 echo "Todos los microservicios han sido iniciados con éxito."
+
+
+
+
+sleep 100h
+
