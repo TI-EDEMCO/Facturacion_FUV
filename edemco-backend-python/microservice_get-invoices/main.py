@@ -8,7 +8,7 @@ def run_get_invoices():
     * Función encargada de ejecutar el microservicio 'get_invoices.py'.
     * Ejecuta un script Python en un subproceso y espera su finalización.
     """
-    process = subprocess.Popen(["C:/edemco/edemco-backend-python/vent/Scripts/python", "microservice_get-invoices/get_invoices.py"])
+    process = subprocess.Popen(["C:/edemco/edemco-backend-python/venv/Scripts/python", "microservice_get-invoices/get_invoices.py"])
     try:
         process.wait()
     except KeyboardInterrupt:
@@ -21,7 +21,7 @@ def run_obser():
     * Función encargada de ejecutar el microservicio 'cufe.py'.
     * Ejecuta un script Python en un subproceso y espera su finalización.
     """
-    process = subprocess.Popen(["C:/edemco/edemco-backend-python/vent/Scripts/python", "microservice_get-invoices/cufe.py"])
+    process = subprocess.Popen(["C:/edemco/edemco-backend-python/venv/Scripts/python", "microservice_get-invoices/cufe.py"])
     try:
         process.wait()
     except KeyboardInterrupt:
