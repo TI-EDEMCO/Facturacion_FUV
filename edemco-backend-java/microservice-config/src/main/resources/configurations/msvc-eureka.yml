@@ -11,6 +11,7 @@ server:
     key-store-type: PKCS12
     key-alias: ${KEY_ALIAS}
 
+
 eureka:
   instance:
     hostname: ${IP_SERVER}

@@ -6,11 +6,13 @@ server:
     key-store-password: ${KEY_PASSWORD}
     key-store-type: PKCS12
     key-alias: ${KEY_ALIAS}
+
   forward-headers-strategy: framework 
   servlet:
     session:
       cookie:
         secure: false
+      timeout: 540m
 spring:
   application:
     name: msvc-security
