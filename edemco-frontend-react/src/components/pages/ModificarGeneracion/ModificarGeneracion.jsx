@@ -45,8 +45,9 @@ const ModificarGeneracion = ({ onClose, listCustumers, SendToSiesa }) => {
   const [InfoGeneracion, setInfoGeneracion] = useState();
   const [showModal, SetShowModal] = useState(false);
   const ListaPlantas = [];
-  const mes_anterior = new Date().getMonth();
-  const anio = new Date().getFullYear();
+  const mes_actual = new Date().getMonth()+1;
+  const mes_anterior = mes_actual === 1 ? 12 : mes_actual - 1;
+  const anio = mes_anterior === 12 ? new Date().getFullYear() - 1 : new Date().getFullYear();
   listCustumers.map(({ idPlanta, _nombrePlanta }) =>
     ListaPlantas.push({ id_planta: idPlanta, anio: anio, mes: mes_anterior })
   );
