@@ -99,7 +99,7 @@ class EdemcoPage:
         # Si el mes actual es Enero
         if (monthDate == "January"):
             # Esperamos hasta que el botón del año anterior sea clickeable
-            previousYear = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="layui-laydate15"]/div[1]/div[1]/i[1]')))
+            previousYear = self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="layui-laydate16"]/div[1]/div[1]/i[1]')))
             # Hacemos clic en el botón del año anterior
             previousYear.click()
             # Esperamos hasta que el botón del mes (en este caso Diciembre, representado por '11') sea clickeable
