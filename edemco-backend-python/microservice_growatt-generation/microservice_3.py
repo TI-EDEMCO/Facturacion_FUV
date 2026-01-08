@@ -6,13 +6,14 @@ import os
 class Microservice_3(AbstractAPI):
     def CheckFile(self):
         now = datetime.now()
-        monthLast = now - relativedelta(months=2)
+        monthLast = now - relativedelta(months=1)
         previousMonth = monthLast.strftime("%B")
         formatDate = monthLast.strftime("%Y-%m")
 
         # Carpeta relativa donde se guardarán las descargas en el contenedor
         download_dir = "C:\\Users\\jose.romero\\Downloads"
         # download_dir = os.getenv("DOWNLOAD_DIR", "/downloads")  # Cambia "/app/downloads" a donde quieras que esté en el contenedor
+        print(previousMonth,"MES ANTERIOR")
         path_xlsx = f"{previousMonth}Generacion_{formatDate}.xls"
 
         File_Exist=os.path.isfile(os.path.join(download_dir, path_xlsx))
