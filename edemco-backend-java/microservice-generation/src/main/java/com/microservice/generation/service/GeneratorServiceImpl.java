@@ -67,7 +67,10 @@ public class GeneratorServiceImpl implements IGeneratorService {
         for (int i = 0; i <= datosGeneracionDTOList.size() - 1; i++) {
             int mesActual = datosGeneracionDTOList.get(i).getFechaFactura().getMonthValue();
             Integer anio = datosGeneracionDTOList.get(i).getFechaFactura().getYear();
-
+            mesActual=AjusteMes(mesActual);
+            anio=AjusteAnio(anio, mesActual);
+            Integer mesAnterior=AjusteMes(mesActual);
+            Integer anio_registroAnterior=AjusteAnio(anio, mesActual);  
             // Obtener el nombre de la planta y verificar si está vacío o tiene valor 0
             String nombrePlanta = datosGeneracionDTOList.get(i).getPlantName();
             Double generacionActual = datosGeneracionDTOList.get(i).getMonthlyCumulativePowerGeneration();
@@ -91,7 +94,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
                 Double valorUnidad = findValorUnidadByIdPlanta(idPlanta);
                 Double diferencia = tarifaOperador - valorUnidad;
 
-                Double generacionAcumulada = generatorRepository.findGeneracionAcumuladaByDateAndPlanta(anio, mesActual - 1, idPlanta);
+                Double generacionAcumulada = generatorRepository.findGeneracionAcumuladaByDateAndPlanta(anio_registroAnterior, mesAnterior, idPlanta);
                 if (generacionAcumulada != null) {
                     generacionAcumulada = generacionAcumulada + generacionActual;
                 } else {
@@ -132,7 +135,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
                 ahorroActual = diferencia * generacionActual;
                 }
                 Long AhorroActualLong=Math.round(ahorroActual);
-                Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
+                Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio_registroAnterior, mesAnterior, idPlanta);
                 if (ahorroAcumulado != null) {
                     ahorroAcumulado = ahorroAcumulado + AhorroActualLong.doubleValue();
                 } else {
@@ -141,7 +144,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
 
                 Double ahorroCodosActual = generacionActual * 0.504;
                 Long AhorroCodosActualLong=Math.round(ahorroCodosActual);
-                Double ahorroCodosAcumulado = generatorRepository.findAhorroCodosAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
+                Double ahorroCodosAcumulado = generatorRepository.findAhorroCodosAcumuladoByDateAndPlanta(anio_registroAnterior, mesAnterior, idPlanta);
                 if (ahorroCodosAcumulado != null) {
                     ahorroCodosAcumulado = ahorroCodosAcumulado + AhorroCodosActualLong.doubleValue();
                 } else {
@@ -181,12 +184,15 @@ public class GeneratorServiceImpl implements IGeneratorService {
         String nombrePlanta= findNombrePlantaByIdPlanta(idPlanta);
         Integer mesActual=registroGeneracion.getMes();
         Integer anio=registroGeneracion.getAnio();
+        Integer mesAnterior=AjusteMes(mesActual);
+        Integer anio_registroAnterior=AjusteAnio(anio, mesActual);
         Long idOperador = findIdOperadorByIdPlanta(idPlanta);
         TarifaOperadorDto tarifaOperadorDto = getTarifaOperadorByOperadorId(idOperador, mesActual);
         Double tarifaOperador = tarifaOperadorDto.getTarifaOperador();
         Double valorUnidad = findValorUnidadByIdPlanta(idPlanta);
+
         Double diferencia = tarifaOperador - valorUnidad;
-        Double generacionAcumulada = generatorRepository.findGeneracionAcumuladaByDateAndPlanta(anio, mesActual - 1, idPlanta);
+        Double generacionAcumulada = generatorRepository.findGeneracionAcumuladaByDateAndPlanta(anio_registroAnterior, mesAnterior, idPlanta);
         if (generacionAcumulada != null) {
                     generacionAcumulada = generacionAcumulada + valorGeneracion;
                 } else {
@@ -225,7 +231,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
         }
         Long AhorroActualLong=Math.round(ahorroActual);
 
-        Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
+        Double ahorroAcumulado = generatorRepository.findAhorroAcumuladoByDateAndPlanta(anio_registroAnterior,mesAnterior, idPlanta);
         if (ahorroAcumulado != null) {
             ahorroAcumulado = ahorroAcumulado + AhorroActualLong.doubleValue();
         } else {
@@ -234,7 +240,7 @@ public class GeneratorServiceImpl implements IGeneratorService {
 
         Double ahorroCodosActual = valorGeneracion * 0.504;
         Long AhorroCodosLong = Math.round(ahorroCodosActual);
-        Double ahorroCodosAcumulado = generatorRepository.findAhorroCodosAcumuladoByDateAndPlanta(anio, mesActual - 1, idPlanta);
+        Double ahorroCodosAcumulado = generatorRepository.findAhorroCodosAcumuladoByDateAndPlanta(anio_registroAnterior,mesAnterior, idPlanta);
         if (ahorroCodosAcumulado != null) {
             ahorroCodosAcumulado = ahorroCodosAcumulado + AhorroCodosLong.doubleValue();
         } else {
@@ -365,6 +371,21 @@ public class GeneratorServiceImpl implements IGeneratorService {
     @Override
     public Float findCantidadKWhByIdPlantaAndDate(String idPlanta, Integer anio, Integer mes) throws Exception {
         return facturacionEspecialClient.findCantidadKWhByIdPlantaAndDate(idPlanta,anio,mes);
+    }
+
+    public static Integer AjusteMes(Integer value){
+        if(value==1){
+            return 12;
+        }else {
+            return value-1;
+        }
+    }
+    public static Integer AjusteAnio(Integer AnioActual,Integer mesActual){
+        if(mesActual==1){
+            return AnioActual-1;
+        }else{
+            return AnioActual;
+        }
     }
 
 
