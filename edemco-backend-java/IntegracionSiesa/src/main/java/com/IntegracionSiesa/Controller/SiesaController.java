@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.IntegracionSiesa.Service.SiesaPruebasService;
 import com.IntegracionSiesa.Service.SiesaService;
 import com.IntegracionSiesa.dto.IniciarFacturacionDto;
 
@@ -26,8 +25,8 @@ public class SiesaController {
     @Autowired
     private SiesaService service;
 
-    @Autowired
-    private SiesaPruebasService siesaPruebasService;
+    // @Autowired
+    // private SiesaPruebasService siesaPruebasService;
 
     /**
      * Llena datos necesarios para la facturación basada en una lista de centros de operación y una fecha específica.
