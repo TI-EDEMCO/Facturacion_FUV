@@ -67,8 +67,6 @@ public class GeneratorServiceImpl implements IGeneratorService {
         for (int i = 0; i <= datosGeneracionDTOList.size() - 1; i++) {
             int mesActual = datosGeneracionDTOList.get(i).getFechaFactura().getMonthValue();
             Integer anio = datosGeneracionDTOList.get(i).getFechaFactura().getYear();
-            mesActual=AjusteMes(mesActual);
-            anio=AjusteAnio(anio, mesActual);
             Integer mesAnterior=AjusteMes(mesActual);
             Integer anio_registroAnterior=AjusteAnio(anio, mesActual);  
             // Obtener el nombre de la planta y verificar si está vacío o tiene valor 0
